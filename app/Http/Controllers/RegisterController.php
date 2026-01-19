@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Enums\Environment;
+use App\Enums\Role;
+use App\Http\Requests\Register\RegisterStoreRequest;
+use App\Models\User;
+use Filament\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
+
+class RegisterController extends Controller
+{
+    public function show()
+    {
+        return inertia('Register/Show', app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'password' => '123456Ab#',
+        ] : []);
+    }
+
+    public function store(RegisterStoreRequest $request)
+    {
+        $user = new User($request->only('name', 'email'));
+
+        $user->password = Hash::make($request->validated('password'));
+        $user->save();
+
+        $user->assignRole(Role::USER->value);
+
+        auth()->guard()->loginUsingId($user->id);
+
+        event(new Registered($user));
+
+        return to_route('home');
+    }
+}

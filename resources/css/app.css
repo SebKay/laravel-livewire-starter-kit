@@ -1,0 +1,21 @@
+@source "../../resources/js/";
+@source "../../resources/views/";
+
+@import "tailwindcss";
+
+@plugin '@tailwindcss/forms';
+
+@import "./variables.css";
+
+@import "./typography.css";
+@import "./utilities.css";
+@import "./forms.css";
+@import "./buttons.css";
+@import "./tables.css";
+@import "./content.css";
+
+@layer base {
+    #app {
+        @apply h-full;
+    }
+}

@@ -1,0 +1,80 @@
+@layer base {
+    label[for] {
+        @apply cursor-pointer;
+    }
+}
+
+@utility form-row {
+    @apply grid grid-cols-1 gap-5 sm:gap-7 sm:grid-cols-4;
+}
+
+@utility form-col {
+    @apply col-span-full;
+}
+
+@utility form-col-2 {
+    @apply col-span-2;
+}
+
+@utility label {
+    @apply pb-3 block text-sm sm:text-base font-medium;
+}
+
+@utility small-label {
+    @apply block text-sm font-medium;
+}
+
+@utility inline-label {
+    @apply flex items-center gap-x-2 text-sm;
+}
+
+@utility field {
+    @apply block rounded-md border-brand-300 shadow-xs outline-hidden hover:ring-3 hover:ring-brand-200/50 focus:border-brand-300 focus:ring-3 focus:ring-brand-200/50 focus:ring-offset-0 transition;
+}
+
+@utility input {
+    @apply field block text-base w-full;
+}
+
+@utility textarea {
+    @apply field block text-base w-full min-h-32;
+}
+
+@utility select {
+    @apply field block text-base w-full cursor-pointer;
+}
+
+@utility option {
+    @apply field cursor-pointer size-5 text-brand-800 checked:border-transparent;
+}
+
+@utility checkbox {
+    @apply option;
+}
+
+@utility radio {
+    @apply option rounded-full;
+}
+
+@utility toggle {
+    @apply inline-flex items-center gap-3 cursor-pointer;
+
+    div {
+        @apply relative w-9 h-5 bg-brand-200 rounded-full transition;
+        @apply peer-hover:ring-3 peer-hover:ring-brand-200/50 peer-focus:ring-3 peer-focus:ring-brand-200/50 peer-focus:outline-hidden;
+        @apply peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white peer-checked:bg-brand-800;
+        @apply after:bg-white after:rounded-full after:size-4 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:transition-all;
+    }
+
+    span {
+        @apply text-sm;
+    }
+}
+
+@utility field-error {
+    @apply mt-2 text-sm text-red-600;
+}
+
+@utility field-hint {
+    @apply mt-2 text-sm text-neutral-500;
+}
