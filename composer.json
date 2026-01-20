@@ -12,6 +12,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/wayfinder": "^0.1.5",
+        "mallardduck/blade-lucide-icons": "^1.26",
         "spatie/laravel-health": "^1.31",
         "spatie/laravel-permission": "^6.9",
         "spatie/security-advisories-health-check": "^1.2",
