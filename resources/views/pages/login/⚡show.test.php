@@ -13,7 +13,7 @@ use function Pest\Laravel\get;
 
 describe('Component', function () {
     test('Renders login details in local and testing environment', function () {
-        Livewire::test('pages::auth.login')
+        Livewire::test('pages::login.show')
             ->assertSet('email', config('seed.users.super.email'))
             ->assertSet('password', config('seed.users.super.password'))
             ->assertSet('remember', true)
@@ -23,7 +23,7 @@ describe('Component', function () {
     test('Does not render login details in production environment', function () {
         app()->instance('env', Environment::PRODUCTION->value);
 
-        Livewire::test('pages::auth.login')
+        Livewire::test('pages::login.show')
             ->assertSet('email', '')
             ->assertSet('password', '')
             ->assertSet('remember', false)
@@ -38,7 +38,7 @@ describe('Component', function () {
 
         assertGuest();
 
-        Livewire::test('pages::auth.login')
+        Livewire::test('pages::login.show')
             ->set('email', $user->email)
             ->set('password', $password)
             ->call('login')
@@ -55,7 +55,7 @@ describe('Component', function () {
 
         assertGuest();
 
-        Livewire::test('pages::auth.login')
+        Livewire::test('pages::login.show')
             ->set('email', $user->email)
             ->set('password', $password)
             ->set('remember', true)
@@ -76,7 +76,7 @@ describe('Component', function () {
 
         assertGuest();
 
-        Livewire::test('pages::auth.login')
+        Livewire::test('pages::login.show')
             ->set('email', $user->email)
             ->set('password', $password)
             ->set('redirect', $redirectUrl)
