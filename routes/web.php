@@ -14,12 +14,7 @@ Route::controller(App\Http\Controllers\RegisterController::class)
         Route::post('register', 'store')->name('register.store')->middleware(['throttle:6,1']);
     });
 
-Route::controller(App\Http\Controllers\LoginController::class)
-    ->middleware(['guest'])
-    ->group(function () {
-        Route::livewire('login', 'pages::auth.login')->name('login');
-        // Route::post('login', 'store')->name('login.store')->middleware(['throttle:6,1']);
-    });
+Route::livewire('login', 'pages::auth.login')->middleware(['guest'])->name('login');
 
 Route::controller(App\Http\Controllers\ResetPasswordController::class)
     ->group(function () {

@@ -1,11 +1,13 @@
 <?php
 
+use App\Enums\Environment;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component {
+new #[Layout('layouts::guest')] class extends Component
+{
     #[Validate(['required', 'email', 'exists:users'])]
     public string $email = '';
 
@@ -20,10 +22,12 @@ new #[Layout('layouts::guest')] class extends Component {
 
     public function mount()
     {
-        $this->email = config('seed.users.super.email');
-        $this->password = config('seed.users.super.password');
-        $this->remember = true;
-        $this->redirect = request()->query('redirect', '');
+        $this->fill(app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
+            'email' => config('seed.users.super.email'),
+            'password' => config('seed.users.super.password'),
+            'remember' => true,
+            'redirect' => request()->query('redirect', ''),
+        ] : []);
     }
 
     public function login()
@@ -31,7 +35,7 @@ new #[Layout('layouts::guest')] class extends Component {
         $this->validate();
 
         throw_if(
-            !auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
+            ! auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
             ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]),

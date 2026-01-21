@@ -16,16 +16,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(Tests\TestCase::class, RefreshDatabase::class)
     ->beforeEach(function () {
-        $this->withoutVite();
         $this->artisan('db:seed --class=TestsSeeder');
     })
-    ->in('Feature');
-
-uses(Tests\TestCase::class, RefreshDatabase::class)
-    ->beforeEach(function () {
-        $this->withoutVite();
-    })
-    ->in('Integration');
+    ->in('Feature', '../resources/views');
 
 /*
 |--------------------------------------------------------------------------
