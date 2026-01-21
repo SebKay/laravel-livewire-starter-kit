@@ -14,7 +14,7 @@
 
 <body class="h-full font-text text-neutral-700">
     <div class="min-h-full flex flex-col">
-        {{-- <Header :menu="menu" /> --}}
+        <livewire:header />
 
         <main class="xl:py-16 py-8 px-4 sm:px-6 xl:px-8">
             <div class="mx-auto max-w-7xl">
