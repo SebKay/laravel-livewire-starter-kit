@@ -28,11 +28,7 @@ Route::post('logout', App\Http\Controllers\LogoutController::class)
     ->middleware(['auth'])
     ->name('logout');
 
-Route::controller(App\Http\Controllers\DashboardController::class)
-    ->middleware(['auth', 'verified'])
-    ->group(function () {
-        Route::get('/', 'index')->name('home');
-    });
+Route::livewire('', 'pages::dashboard.index')->middleware(['auth', 'verified'])->name('home');
 
 Route::controller(App\Http\Controllers\AccountController::class)
     ->prefix('account')
