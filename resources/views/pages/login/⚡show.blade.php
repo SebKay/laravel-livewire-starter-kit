@@ -6,8 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component
-{
+new #[Layout('layouts::guest')] class extends Component {
     #[Validate(['required', 'email', 'exists:users'])]
     public string $email = '';
 
@@ -22,12 +21,16 @@ new #[Layout('layouts::guest')] class extends Component
 
     public function mount()
     {
-        $this->fill(app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
-            'email' => config('seed.users.super.email'),
-            'password' => config('seed.users.super.password'),
-            'remember' => true,
-            'redirect' => request()->query('redirect', ''),
-        ] : []);
+        $this->fill(
+            app()->environment([Environment::LOCAL->value, Environment::TESTING->value])
+                ? [
+                    'email' => config('seed.users.super.email'),
+                    'password' => config('seed.users.super.password'),
+                    'remember' => true,
+                    'redirect' => request()->query('redirect', ''),
+                ]
+                : [],
+        );
     }
 
     public function login()
@@ -35,7 +38,7 @@ new #[Layout('layouts::guest')] class extends Component
         $this->validate();
 
         throw_if(
-            ! auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
+            !auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
             ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]),
@@ -51,7 +54,7 @@ new #[Layout('layouts::guest')] class extends Component
 ?>
 
 <div class="mx-auto max-w-2xl">
-    <livewire:page-title text="Log In" />
+    <x-page-title text="Log In" />
 
     <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
         <form wire:submit="login">
