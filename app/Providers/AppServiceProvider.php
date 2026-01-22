@@ -6,9 +6,7 @@ use App\Enums\Environment;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
@@ -28,10 +26,6 @@ class AppServiceProvider extends ServiceProvider
         Model::automaticallyEagerLoadRelationships();
 
         RequestException::dontTruncate();
-
-        JsonResource::withoutWrapping();
-
-        Vite::useAggressivePrefetching();
 
         Password::defaults(function () {
             $rule = Password::min(6);
