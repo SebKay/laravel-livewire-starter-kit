@@ -80,7 +80,7 @@ new #[Layout('layouts::guest')] class extends Component {
                 <div class="form-col">
                     <label class="label flex justify-between" for="password">
                         Password
-                        <a href="#" class="text-link">Forgot password?</a>
+                        <a href="{{ route('password') }}" class="text-link">Forgot password?</a>
                     </label>
 
                     <input id="password" class="input" type="password" name="password" wire:model="password"

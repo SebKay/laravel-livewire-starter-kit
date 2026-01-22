@@ -13,13 +13,16 @@ Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('logi
 //     ->middleware(['auth'])
 //     ->name('logout');
 
-Route::controller(App\Http\Controllers\ResetPasswordController::class)
-    ->group(function () {
-        Route::get('forgot-password', 'show')->name('password');
-        Route::post('forgot-password', 'store')->name('password.store')->middleware(['throttle:6,1']);
-        Route::get('reset-password/{token}', 'edit')->name('password.reset');
-        Route::patch('reset-password', 'update')->name('password.update')->middleware(['throttle:6,1']);
-    });
+Route::livewire('forgot-password', 'pages::password.show')->middleware(['guest', 'throttle:6,1'])->name('password');
+Route::livewire('reset-password/{token}', 'pages::password.reset.[token]')->middleware(['guest', 'throttle:6,1'])->name('password.reset');
+
+// Route::controller(App\Http\Controllers\ResetPasswordController::class)
+//     ->group(function () {
+//         Route::get('forgot-password', 'show')->name('password');
+//         Route::post('forgot-password', 'store')->name('password.store')->middleware(['throttle:6,1']);
+//         Route::get('reset-password/{token}', 'edit')->name('password.reset');
+//         Route::patch('reset-password', 'update')->name('password.update')->middleware(['throttle:6,1']);
+//     });
 
 Route::livewire('register', 'pages::register.show')->middleware(['guest'])->name('register');
 
