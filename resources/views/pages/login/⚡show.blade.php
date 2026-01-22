@@ -1,22 +1,18 @@
 <?php
 
 use App\Enums\Environment;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 new #[Layout('layouts::guest')] class extends Component {
-    #[Validate(['required', 'email', 'exists:users'])]
     public string $email = '';
 
-    #[Validate(['required'])]
     public string $password = '';
 
-    #[Validate(['nullable'])]
     public bool $remember = false;
 
-    #[Validate(['nullable', 'string'])]
     public string $redirect = '';
 
     public function mount()
@@ -31,6 +27,16 @@ new #[Layout('layouts::guest')] class extends Component {
                 ]
                 : [],
         );
+    }
+
+    protected function rules(): array
+    {
+        return [
+            'email' => ['required', 'email', 'exists:users'],
+            'password' => ['required', Password::defaults()],
+            'remember' => ['nullable'],
+            'redirect' => ['nullable', 'string'],
+        ];
     }
 
     public function login()
@@ -104,7 +110,7 @@ new #[Layout('layouts::guest')] class extends Component {
                 <input type="hidden" name="redirect" wire:model="redirect" />
 
                 <div class="form-col">
-                    <button class="button button-full">
+                    <button class="button button-full" wire:submit.prevent="login">
                         Log In
                     </button>
                 </div>
