@@ -2,28 +2,23 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Notification;
-use Inertia\Testing\AssertableInertia as Assert;
+use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-
-mutates(\App\Http\Controllers\EmailVerificationController::class);
 
 describe('Users', function () {
     test('Can access the verification page', function () {
         actingAs(User::factory()->unverified()->create())
             ->get(route('verification.notice'))
             ->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('EmailVerification/Show')
-            );
+            ->assertSeeLivewire('pages::verification.show');
     });
 
     test('Can verify their email address', function () {
         $user = User::factory()->unverified()->create();
 
-        expect($user->verified_at)->toBeNull();
+        expect($user->email_verified_at)->toBeNull();
 
         actingAs($user)
             ->withoutMiddleware(Illuminate\Routing\Middleware\ValidateSignature::class)
@@ -31,22 +26,19 @@ describe('Users', function () {
                 'id' => $user->getKey(),
                 'hash' => sha1((string) $user->getEmailForVerification()),
             ]))
-            ->assertSessionDoesntHaveErrors()
             ->assertRedirectToRoute('home');
 
         expect($user->refresh()->email_verified_at)->not()->toBeNull();
     });
 
-    test('Can send the verificaiton notice', function () {
+    test('Can send the verification notice', function () {
         Notification::fake();
 
         $user = User::factory()->unverified()->create();
 
-        actingAs($user)
-            ->fromRoute('verification.notice')
-            ->post(route('verification.send'))
-            ->assertSessionDoesntHaveErrors()
-            ->assertRedirectToRoute('verification.notice');
+        Livewire::actingAs($user)
+            ->test('pages::verification.show')
+            ->call('resend');
 
         Notification::assertSentTo($user, Illuminate\Auth\Notifications\VerifyEmail::class);
     });

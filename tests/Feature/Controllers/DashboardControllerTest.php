@@ -1,22 +1,16 @@
 <?php
 
 use App\Models\User;
-use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-
-mutates(\App\Http\Controllers\DashboardController::class);
 
 describe('Users', function () {
     test('Can access the home page', function () {
         actingAs(User::factory()->create())
             ->get(route('home'))
             ->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('Dashboard/Index')
-            );
+            ->assertSeeLivewire('pages::dashboard.index');
     });
 });
 

@@ -1,19 +1,15 @@
 <?php
 
-use App\Enums\Environment;
 use App\Enums\Role;
 use App\Models\User;
-use Inertia\Testing\AssertableInertia as Assert;
+use Illuminate\Support\Facades\Notification;
+use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertGuest;
-use function Pest\Laravel\from;
 use function Pest\Laravel\get;
-use function Pest\Laravel\post;
-
-mutates(App\Http\Controllers\RegisterController::class);
 
 describe('Users', function () {
     test("Can't access the register page", function () {
@@ -27,40 +23,22 @@ describe('Guests', function () {
     test('Can access the register page', function () {
         get(route('register'))
             ->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('Register/Show')
-                    ->has('name')
-                    ->has('email')
-                    ->has('password')
-            );
-    });
-
-    test('Props are not passed to the show page in production', function () {
-        app()->instance('env', Environment::PRODUCTION->value);
-
-        get(route('register'))
-            ->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('Register/Show')
-                    ->missing('name')
-                    ->missing('email')
-                    ->missing('password')
-            );
+            ->assertSeeLivewire('pages::register.show');
     });
 
     test('Can register', function () {
+        Notification::fake();
+
         $email = fake()->email();
 
         assertGuest();
 
-        post(route('register.store'), [
-            'name' => fake()->name(),
-            'email' => $email,
-            'password' => 'Pa$$word12345#',
-        ])
-            ->assertSessionDoesntHaveErrors()
+        Livewire::test('pages::register.show')
+            ->set('name', fake()->name())
+            ->set('email', $email)
+            ->set('password', 'Pa$$word12345#')
+            ->call('register')
+            ->assertHasNoErrors()
             ->assertRedirectToRoute('home');
 
         assertDatabaseHas('users', [
@@ -73,21 +51,19 @@ describe('Guests', function () {
     });
 
     test("Can't register with an email that already exists", function () {
+        Notification::fake();
+
         $email = 'jim@test.com';
 
         User::factory()->create([
             'email' => $email,
         ]);
 
-        from(route('register'))
-            ->post(route('register.store'), [
-                'name' => fake()->name(),
-                'email' => $email,
-                'password' => 'P$ssword12345#',
-            ])
-            ->assertSessionHasErrors([
-                'email' => __('validation.unique', ['attribute' => 'email']),
-            ])
-            ->assertRedirectToRoute('register');
+        Livewire::test('pages::register.show')
+            ->set('name', fake()->name())
+            ->set('email', $email)
+            ->set('password', 'P$ssword12345#')
+            ->call('register')
+            ->assertHasErrors(['email']);
     });
 });

@@ -1,15 +1,11 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Inertia\Testing\AssertableInertia as Assert;
+use Livewire\Livewire;
 
 use function Pest\Faker\fake;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-use function Pest\Laravel\patch;
-
-mutates(\App\Http\Controllers\AccountController::class);
 
 describe('Users', function () {
     test('Can access the edit page', function () {
@@ -18,42 +14,25 @@ describe('Users', function () {
         actingAs($user)
             ->get(route('account.edit'))
             ->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('Account/Edit')
-                    ->has('user')
-                    ->where('user.name', $user->name)
-                    ->where('user.email', $user->email)
-            );
+            ->assertSeeLivewire('pages::account.edit');
     });
 
     test('Can update their details', function () {
         $user = User::factory()->create([
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
-            'password' => fake()->password(),
         ]);
 
-        actingAs($user)
-            ->fromRoute('account.edit')
-            ->patch(route('account.update'), $newData = [
-                'name' => fake()->name(),
-                'email' => fake()->safeEmail(),
-                'password' => 'newPassword123#',
-            ])
-            ->assertSessionDoesntHaveErrors()
-            ->assertRedirectToRoute('account.edit');
-
-        get(route('account.edit'))
-            ->assertInertia(
-                fn (Assert $page) => $page->hasFlash('success', __('account.updated'))
-            );
+        Livewire::actingAs($user)
+            ->test('pages::account.edit')
+            ->set('name', $newName = fake()->name())
+            ->set('email', $newEmail = fake()->safeEmail())
+            ->call('update')
+            ->assertHasNoErrors();
 
         expect($user->refresh())
-            ->name->toBe($newData['name'])
-            ->email->toBe($newData['email']);
-
-        expect(Hash::check($newData['password'], $user->password))->toBeTrue();
+            ->name->toBe($newName)
+            ->email->toBe($newEmail);
     });
 
     test("Can't update their email to one that already exists", function () {
@@ -61,21 +40,15 @@ describe('Users', function () {
             'email' => fake()->email(),
         ]);
 
-        $oldEmail = fake()->email();
-
         $user2 = User::factory()->create([
-            'email' => $oldEmail,
+            'email' => $oldEmail = fake()->email(),
         ]);
 
-        actingAs($user2)
-            ->fromRoute('account.edit')
-            ->patch(route('account.update'), [
-                'email' => $user1->email,
-            ])
-            ->assertSessionHasErrors([
-                'email' => __('validation.unique', ['attribute' => 'email']),
-            ])
-            ->assertRedirectToRoute('account.edit');
+        Livewire::actingAs($user2)
+            ->test('pages::account.edit')
+            ->set('email', $user1->email)
+            ->call('update')
+            ->assertHasErrors(['email']);
 
         expect($user2->refresh()->email)->toBe($oldEmail);
     });
@@ -84,12 +57,6 @@ describe('Users', function () {
 describe('Guests', function () {
     test("Can't access the edit page", function () {
         get(route('account.edit'))
-            ->assertRedirectToRoute('login');
-    });
-
-    test("Can't update details", function () {
-        patch(route('account.update'))
-            ->assertSessionDoesntHaveErrors()
             ->assertRedirectToRoute('login');
     });
 });
