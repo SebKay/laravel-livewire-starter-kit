@@ -8,11 +8,6 @@ new class extends Component {
 
     public bool $mobileMenuOpen = false;
 
-    public function toggleMobileMenu()
-    {
-        $this->mobileMenuOpen = !$this->mobileMenuOpen;
-    }
-
     public function mount()
     {
         $this->menu = [
@@ -26,12 +21,22 @@ new class extends Component {
                 'route' => route('account.edit'),
                 'active' => request()->routeIs('account.edit'),
             ],
-            [
-                'label' => 'Logout',
-                'route' => route('logout'),
-                'active' => false,
-            ],
         ];
+    }
+
+    public function toggleMobileMenu()
+    {
+        $this->mobileMenuOpen = !$this->mobileMenuOpen;
+    }
+
+    public function logout()
+    {
+        auth()->guard()->logout();
+
+        session()->regenerateToken();
+        session()->invalidate();
+
+        return redirect()->route('login');
     }
 };
 ?>
@@ -59,6 +64,11 @@ new class extends Component {
                                 {{ $link['label'] }}
                             </a>
                         @endforeach
+
+                        <button type="button" wire:click="logout"
+                            class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950">
+                            Logout
+                        </button>
                     </div>
                 </div>
 
@@ -84,6 +94,11 @@ new class extends Component {
                         {{ $link['label'] }}
                     </a>
                 @endforeach
+
+                <button type="button" wire:click="logout"
+                    class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950">
+                    Logout
+                </button>
             </div>
         </div>
     </nav>
