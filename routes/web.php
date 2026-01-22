@@ -7,14 +7,11 @@ Route::get('health', Spatie\Health\Http\Controllers\HealthCheckResultsController
 
 Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value])->name('elements');
 
-Route::controller(App\Http\Controllers\RegisterController::class)
-    ->middleware(['guest'])
-    ->group(function () {
-        Route::get('register', 'show')->name('register');
-        Route::post('register', 'store')->name('register.store')->middleware(['throttle:6,1']);
-    });
-
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
+
+Route::post('logout', App\Http\Controllers\LogoutController::class)
+    ->middleware(['auth'])
+    ->name('logout');
 
 Route::controller(App\Http\Controllers\ResetPasswordController::class)
     ->group(function () {
@@ -24,19 +21,24 @@ Route::controller(App\Http\Controllers\ResetPasswordController::class)
         Route::patch('reset-password', 'update')->name('password.update')->middleware(['throttle:6,1']);
     });
 
-Route::post('logout', App\Http\Controllers\LogoutController::class)
-    ->middleware(['auth'])
-    ->name('logout');
+Route::controller(App\Http\Controllers\RegisterController::class)
+    ->middleware(['guest'])
+    ->group(function () {
+        Route::get('register', 'show')->name('register');
+        Route::post('register', 'store')->name('register.store')->middleware(['throttle:6,1']);
+    });
 
 Route::livewire('', 'pages::dashboard.index')->middleware(['auth', 'verified'])->name('home');
 
-Route::controller(App\Http\Controllers\AccountController::class)
-    ->prefix('account')
-    ->middleware(['auth', 'verified'])
-    ->group(function () {
-        Route::get('', 'edit')->name('account.edit');
-        Route::patch('', 'update')->name('account.update');
-    });
+Route::livewire('account', 'pages::account.edit')->middleware(['auth', 'verified'])->name('account.edit');
+
+// Route::controller(App\Http\Controllers\AccountController::class)
+//     ->prefix('account')
+//     ->middleware(['auth', 'verified'])
+//     ->group(function () {
+//         Route::get('', 'edit')->name('account.edit');
+//         Route::patch('', 'update')->name('account.update');
+//     });
 
 Route::controller(App\Http\Controllers\EmailVerificationController::class)
     ->prefix('account')

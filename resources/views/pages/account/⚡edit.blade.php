@@ -8,5 +8,5 @@ new class extends Component {
 ?>
 
 <div>
-    dashboard
+    account
 </div>
