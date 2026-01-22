@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Environment;
 use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -15,6 +16,19 @@ new #[Layout('layouts::guest')] class extends Component
     public string $email = '';
 
     public string $password = '';
+
+    public function mount()
+    {
+        $this->fill(
+            app()->environment([Environment::LOCAL->value, Environment::TESTING->value])
+                ? [
+                    'name' => fake()->name(),
+                    'email' => fake()->unique()->safeEmail(),
+                    'password' => '123456',
+                ]
+                : [],
+        );
+    }
 
     protected function rules(): array
     {

@@ -42,11 +42,14 @@ Route::livewire('account', 'pages::account.edit')->middleware(['auth', 'verified
 //         Route::patch('', 'update')->name('account.update');
 //     });
 
-Route::controller(App\Http\Controllers\EmailVerificationController::class)
-    ->prefix('account')
-    ->middleware(['auth'])
-    ->group(function () {
-        Route::get('verify', 'show')->name('verification.notice');
-        Route::get('verify/{id}/{hash}', 'store')->middleware(['signed'])->name('verification.verify');
-        Route::post('verify/resend', 'update')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-    });
+Route::livewire('account/verify', 'pages::verification.show')->middleware(['auth'])->name('verification.notice');
+Route::livewire('account/verify/{id}/{hash}', 'pages::verification.show')->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Route::controller(App\Http\Controllers\EmailVerificationController::class)
+//     ->prefix('account')
+//     ->middleware(['auth'])
+//     ->group(function () {
+//         // Route::get('verify', 'show')->name('verification.notice');
+//         // Route::get('verify/{id}/{hash}', 'store')->middleware(['signed'])->name('verification.verify');
+//         Route::post('verify/resend', 'update')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+//     });
