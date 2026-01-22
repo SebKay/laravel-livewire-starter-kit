@@ -1,12 +1,12 @@
 <?php
 
 use App\Enums\Environment;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component {
+new #[Layout('layouts::guest')] class extends Component
+{
     public string $email = '';
 
     public string $password = '';
@@ -33,7 +33,7 @@ new #[Layout('layouts::guest')] class extends Component {
     {
         return [
             'email' => ['required', 'email', 'exists:users'],
-            'password' => ['required', Password::defaults()],
+            'password' => ['required', 'string'],
             'remember' => ['nullable'],
             'redirect' => ['nullable', 'string'],
         ];
@@ -44,7 +44,7 @@ new #[Layout('layouts::guest')] class extends Component {
         $this->validate();
 
         throw_if(
-            !auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
+            ! auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
             ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]),
