@@ -9,6 +9,8 @@ Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'role:
 
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
 
+Route::post('logout', App\Livewire\Actions\Logout::class)->middleware(['auth'])->name('logout');
+
 // Route::post('logout', App\Http\Controllers\LogoutController::class)
 //     ->middleware(['auth'])
 //     ->name('logout');

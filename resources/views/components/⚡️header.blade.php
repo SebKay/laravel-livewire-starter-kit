@@ -28,16 +28,6 @@ new class extends Component {
     {
         $this->mobileMenuOpen = !$this->mobileMenuOpen;
     }
-
-    public function logout()
-    {
-        auth()->guard()->logout();
-
-        session()->regenerateToken();
-        session()->invalidate();
-
-        return redirect()->route('login');
-    }
 };
 ?>
 
@@ -65,10 +55,8 @@ new class extends Component {
                             </a>
                         @endforeach
 
-                        <button type="button" wire:click="logout"
-                            class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950">
-                            Logout
-                        </button>
+                        <x-logout-button
+                            class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950" />
                     </div>
                 </div>
 
@@ -95,10 +83,8 @@ new class extends Component {
                     </a>
                 @endforeach
 
-                <button type="button" wire:click="logout"
-                    class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950">
-                    Logout
-                </button>
+                <x-logout-button
+                    class="w-full text-left rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950" />
             </div>
         </div>
     </nav>

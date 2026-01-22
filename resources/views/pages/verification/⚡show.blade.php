@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component
-{
+new #[Layout('layouts::guest')] class extends Component {
     public User $user;
 
     public function mount(?int $id = null, ?string $hash = null)
@@ -25,11 +24,11 @@ new #[Layout('layouts::guest')] class extends Component
             abort(403);
         }
 
-        if (! hash_equals(sha1($this->user->getEmailForVerification()), $hash)) {
+        if (!hash_equals(sha1($this->user->getEmailForVerification()), $hash)) {
             abort(403);
         }
 
-        if (! $this->user->hasVerifiedEmail()) {
+        if (!$this->user->hasVerifiedEmail()) {
             $this->user->markEmailAsVerified();
 
             event(new Verified($this->user));
@@ -40,7 +39,7 @@ new #[Layout('layouts::guest')] class extends Component
 
     public function resend(): void
     {
-        $key = 'verification-resend:'.$this->user->id;
+        $key = 'verification-resend:' . $this->user->id;
 
         if (RateLimiter::tooManyAttempts($key, 6)) {
             $this->addError(
@@ -76,10 +75,8 @@ new #[Layout('layouts::guest')] class extends Component
     </div>
 
     <div class="mt-6 xl:mt-10">
-        <p class="text-center mt-3">
-            <a class="text-link" href="#">
-                Logout
-            </a>
-        </p>
+        <div class="text-center mt-3">
+            <x-logout-button class="text-link" />
+        </div>
     </div>
 </div>
