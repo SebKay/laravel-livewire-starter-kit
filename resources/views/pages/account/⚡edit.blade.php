@@ -4,7 +4,8 @@ use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public User $user;
 
     public string $name;
@@ -25,7 +26,7 @@ new class extends Component {
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
+            'email' => ['required', 'email', 'unique:users,email,'.$this->user->id],
             'password' => ['nullable', Password::defaults()],
         ];
     }
@@ -35,6 +36,10 @@ new class extends Component {
         $this->validate();
 
         $this->user->update($this->only('name', 'email'));
+
+        if ($this->password) {
+            $this->user->updatePassword($this->password);
+        }
     }
 };
 ?>
