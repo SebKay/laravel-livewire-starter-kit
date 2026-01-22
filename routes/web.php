@@ -9,9 +9,9 @@ Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'role:
 
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
 
-Route::post('logout', App\Http\Controllers\LogoutController::class)
-    ->middleware(['auth'])
-    ->name('logout');
+// Route::post('logout', App\Http\Controllers\LogoutController::class)
+//     ->middleware(['auth'])
+//     ->name('logout');
 
 Route::controller(App\Http\Controllers\ResetPasswordController::class)
     ->group(function () {
@@ -21,12 +21,14 @@ Route::controller(App\Http\Controllers\ResetPasswordController::class)
         Route::patch('reset-password', 'update')->name('password.update')->middleware(['throttle:6,1']);
     });
 
-Route::controller(App\Http\Controllers\RegisterController::class)
-    ->middleware(['guest'])
-    ->group(function () {
-        Route::get('register', 'show')->name('register');
-        Route::post('register', 'store')->name('register.store')->middleware(['throttle:6,1']);
-    });
+Route::livewire('register', 'pages::register.show')->middleware(['guest'])->name('register');
+
+// Route::controller(App\Http\Controllers\RegisterController::class)
+//     ->middleware(['guest'])
+//     ->group(function () {
+//         Route::get('register', 'show')->name('register');
+//         Route::post('register', 'store')->name('register.store')->middleware(['throttle:6,1']);
+//     });
 
 Route::livewire('', 'pages::dashboard.index')->middleware(['auth', 'verified'])->name('home');
 

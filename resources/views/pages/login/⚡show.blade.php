@@ -114,7 +114,7 @@ new #[Layout('layouts::guest')] class extends Component {
         <div class="mt-6 xl:mt-10">
             <p class="text-center mt-3">
                 Don't have an account?
-                <a href="#" class="text-link">Register</a>
+                <a href="{{ route('register') }}" class="text-link">Register</a>
             </p>
         </div>
     </div>
