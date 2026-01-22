@@ -22,7 +22,7 @@
             </div>
         </main>
 
-        {{-- <Footer class="mt-auto" /> --}}
+        <x-footer class="mt-auto" />
     </div>
 
     @livewireScripts
