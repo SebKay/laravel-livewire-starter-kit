@@ -1,5 +1,5 @@
-# Laravel / Inertia (Vue) – Template
+# Laravel / Livewire – Starter Kit
 
-[![Test](https://github.com/SebKay/laravel-inertia-vue-starter-kit/actions/workflows/test.yml/badge.svg)](https://github.com/SebKay/laravel-inertia-vue-starter-kit/actions/workflows/test.yml)
+[![Test](https://github.com/SebKay/laravel-livewire-starter-kit/actions/workflows/test.yml/badge.svg)](https://github.com/SebKay/laravel-livewire-starter-kit/actions/workflows/test.yml)
 
-A starter kit for Laravel apps using Inertia.js and Vue.js.
+A starter kit for Laravel apps using Livewire.

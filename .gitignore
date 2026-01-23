@@ -5,6 +5,7 @@
 /public/storage
 /public/css
 /public/js
+/public/fonts
 /resources/js/actions
 /resources/js/routes
 /resources/js/wayfinder
@@ -24,3 +25,5 @@ yarn-error.log
 /.vscode
 .phpunit.cache/
 .claude/settings.local.json
+.cursor/mcp.json
+.mcp.json

@@ -1,17 +1,16 @@
 {
-    "name": "sebkay/laravel-inertia-vue-starter-kit",
+    "name": "sebkay/laravel-livewire-starter-kit",
     "type": "project",
-    "description": "A starter project for Laravel apps using Inertia and Vue.",
+    "description": "A starter project for Laravel apps using Livewire.",
     "license": "MIT",
     "require": {
         "php": "^8.4",
         "filament/filament": "^5.0",
-        "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/nightwatch": "^1.19",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "laravel/wayfinder": "^0.1.5",
+        "mallardduck/blade-lucide-icons": "^1.26",
         "spatie/laravel-health": "^1.31",
         "spatie/laravel-permission": "^6.9",
         "spatie/security-advisories-health-check": "^1.2",
@@ -57,9 +56,6 @@
             "@php artisan optimize",
             "@assets:build"
         ],
-        "build:test": [
-            "composer install --no-interaction"
-        ],
         "rector": [
             "./vendor/bin/rector"
         ],
@@ -74,9 +70,6 @@
         ],
         "test:coverage": [
             "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --stop-on-failure --coverage --min=85"
-        ],
-        "test:mutations": [
-            "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --mutate"
         ],
         "assets:build": [
             "bun install",
