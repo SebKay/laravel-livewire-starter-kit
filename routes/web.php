@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('health', Spatie\Health\Http\Controllers\HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value]);
 
-Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value])->name('elements');
-
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
 
 Route::post('logout', App\Livewire\Actions\Logout::class)->middleware(['auth'])->name('logout');
