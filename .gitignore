@@ -25,3 +25,5 @@ yarn-error.log
 /.vscode
 .phpunit.cache/
 .claude/settings.local.json
+.cursor/mcp.json
+.mcp.json
