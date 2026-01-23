@@ -127,5 +127,8 @@ jobs:
           cp .env.testing .env
           php artisan key:generate
 
+      - name: Build Assets
+        run: bun run build
+
       - name: Run Tests
         run: composer test
