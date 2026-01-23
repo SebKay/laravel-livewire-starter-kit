@@ -56,9 +56,6 @@
             "@php artisan optimize",
             "@assets:build"
         ],
-        "build:test": [
-            "composer install --no-interaction"
-        ],
         "rector": [
             "./vendor/bin/rector"
         ],
