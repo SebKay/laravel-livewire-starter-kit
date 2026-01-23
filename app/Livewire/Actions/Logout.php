@@ -11,6 +11,6 @@ class Logout
         session()->regenerateToken();
         session()->invalidate();
 
-        return redirect()->route('login');
+        return to_route('login');
     }
 }
