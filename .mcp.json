@@ -13,7 +13,7 @@
                 "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
             ],
             "env": {
-                "SITE_PATH": "/Users/sebkearslake/Documents/Valet/laravel-inertia-template"
+                "SITE_PATH": "/Users/sebkearslake/Documents/Valet/laravel-livewire-starter-kit"
             }
         }
     }
