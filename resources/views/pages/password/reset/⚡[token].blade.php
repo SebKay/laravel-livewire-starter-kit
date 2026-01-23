@@ -10,8 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component
-{
+new #[Layout('layouts::guest')] class extends Component {
     public string $token = '';
 
     public string $email = '';
@@ -40,18 +39,17 @@ new #[Layout('layouts::guest')] class extends Component
     {
         $this->validate();
 
-        $status = Password::reset(
-            $this->only('token', 'email', 'password', 'password_confirmation'),
-            function (User $user, string $password) {
-                $user->forceFill([
+        $status = Password::reset($this->only('token', 'email', 'password', 'password_confirmation'), function (User $user, string $password) {
+            $user
+                ->forceFill([
                     'password' => Hash::make($password),
-                ])->setRememberToken(Str::random(60));
+                ])
+                ->setRememberToken(Str::random(60));
 
-                $user->save();
+            $user->save();
 
-                event(new PasswordReset($user));
-            },
-        );
+            event(new PasswordReset($user));
+        });
 
         throw_if(
             $status !== Password::PASSWORD_RESET,
@@ -70,7 +68,7 @@ new #[Layout('layouts::guest')] class extends Component
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Reset Password" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         <form wire:submit="resetPassword">
             <div class="form-row">
                 <div class="form-col">

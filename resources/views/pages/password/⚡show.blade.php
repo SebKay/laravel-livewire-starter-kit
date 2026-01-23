@@ -39,7 +39,7 @@ new #[Layout('layouts::guest')] class extends Component {
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Forgot Password" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         <form wire:submit="sendResetLink">
             <div class="form-row">
                 <div class="form-col">

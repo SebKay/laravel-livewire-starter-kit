@@ -9,8 +9,7 @@ use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component
-{
+new #[Layout('layouts::guest')] class extends Component {
     public string $name = '';
 
     public string $email = '';
@@ -62,7 +61,7 @@ new #[Layout('layouts::guest')] class extends Component
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Register" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         <form wire:submit="register">
             <div class="form-row">
                 <div class="form-col">

@@ -3,8 +3,7 @@
 use App\Models\User;
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public string $title = 'Dashboard';
 
     public User $user;
@@ -21,7 +20,7 @@ new class extends Component
         {{ $title }}
     </h1>
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         @if ($user->can(\App\Enums\Permission::CREATE_POSTS))
             <p>User can create posts.</p>
         @else

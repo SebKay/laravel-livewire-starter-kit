@@ -4,8 +4,7 @@ use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public User $user;
 
     public string $name;
@@ -26,7 +25,7 @@ new class extends Component
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,'.$this->user->id],
+            'email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
             'password' => ['nullable', Password::defaults()],
         ];
     }
@@ -49,7 +48,7 @@ new class extends Component
         Update Account
     </h1>
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         <form wire:submit="update">
             <div class="form-row">
                 <div class="form-col">

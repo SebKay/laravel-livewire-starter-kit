@@ -5,8 +5,7 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-new #[Layout('layouts::guest')] class extends Component
-{
+new #[Layout('layouts::guest')] class extends Component {
     public string $email = '';
 
     public string $password = '';
@@ -44,7 +43,7 @@ new #[Layout('layouts::guest')] class extends Component
         $this->validate();
 
         throw_if(
-            ! auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
+            !auth()->guard()->attempt($this->only('email', 'password'), $this->remember),
             ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]),
@@ -62,7 +61,7 @@ new #[Layout('layouts::guest')] class extends Component
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Log In" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         <form wire:submit="login">
             <div class="form-row">
                 <div class="form-col">
