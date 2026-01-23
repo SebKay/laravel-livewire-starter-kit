@@ -3,14 +3,14 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "caniuse-lite": "^1.0.30001761",
+        "caniuse-lite": "^1.0.30001765",
       },
       "devDependencies": {
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/vite": "^4.1.18",
-        "laravel-vite-plugin": "^2.0.1",
+        "laravel-vite-plugin": "^2.1.0",
         "tailwindcss": "^4.1.18",
-        "vite": "^8.0.0-beta.4",
+        "vite": "^8.0.0-beta.9",
       },
     },
   },
@@ -99,7 +99,7 @@
 
     "@tybys/wasm-util": ["@tybys/wasm-util@0.10.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg=="],
 
-    "caniuse-lite": ["caniuse-lite@1.0.30001765", "", {}, "sha512-LWcNtSyZrakjECqmpP4qdg0MMGdN368D7X8XvvAqOcqMv0RxnlqVKZl2V6/mBR68oYMxOZPLw/gO7DuisMHUvQ=="],
+    "caniuse-lite": ["caniuse-lite@1.0.30001766", "", {}, "sha512-4C0lfJ0/YPjJQHagaE9x2Elb69CIqEPZeG0anQt9SIvIoOH4a4uaRl73IavyO+0qZh6MDLH//DrXThEYKHkmYA=="],
 
     "detect-libc": ["detect-libc@2.1.2", "", {}, "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="],
 
