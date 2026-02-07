@@ -13,7 +13,6 @@
     ],
     "sail": false,
     "skills": [
-        "livewire-development",
         "pest-testing",
         "tailwindcss-development",
         "debugging-output-and-previewing-html-using-ray"
