@@ -35,11 +35,13 @@ class AppServiceProvider extends ServiceProvider
                 : $rule;
         });
 
+        // @codeCoverageIgnoreStart
         Table::configureUsing(function (Table $table): void {
             $table
                 ->defaultPaginationPageOption(50)
                 ->paginationPageOptions([5, 10, 25, 50, 'all']);
         });
+        // @codeCoverageIgnoreEnd
 
         Health::checks([
             UsedDiskSpaceCheck::new(),
