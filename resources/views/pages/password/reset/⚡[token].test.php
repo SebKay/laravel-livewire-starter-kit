@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Livewire\Livewire;
 
 it('resets password and flashes a success toast payload', function () {
