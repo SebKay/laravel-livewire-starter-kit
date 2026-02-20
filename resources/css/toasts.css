@@ -35,7 +35,7 @@
 }
 
 @utility toast-error {
-    @apply border-red-200 bg-red-50 text-red-900;
+    @apply border-0 bg-red-50 text-red-900;
 
     .toast-close {
         @apply text-red-700 hover:bg-red-100;
