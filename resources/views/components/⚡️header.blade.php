@@ -1,6 +1,5 @@
 <?php
 
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component {
@@ -8,84 +7,57 @@ new class extends Component {
 
     public bool $mobileMenuOpen = false;
 
-    public function mount()
+    public function mount(): void
     {
         $this->menu = [
             [
                 'label' => 'Dashboard',
+                'icon' => 'layout-dashboard',
                 'route' => route('home'),
                 'active' => request()->routeIs('home'),
             ],
             [
                 'label' => 'Account',
+                'icon' => 'user-circle',
                 'route' => route('account.edit'),
                 'active' => request()->routeIs('account.edit'),
             ],
         ];
     }
 
-    public function toggleMobileMenu()
+    public function toggleMobileMenu(): void
     {
         $this->mobileMenuOpen = !$this->mobileMenuOpen;
     }
 };
 ?>
 
-<header class="bg-white px-4 sm:px-6 xl:px-8">
-    <nav>
-        <div class="mx-auto max-w-7xl">
-            <div class="flex h-16 items-center justify-between">
-                <div class="flex items-center">
-                    <a href="{{ route('home') }}" class="shrink-0 text-brand-800">
-                        <x-lucide-sparkles class="size-7" />
-                    </a>
-                </div>
+<aside
+    class="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-brand-200 lg:bg-white">
+    <div class="flex grow flex-col gap-8 overflow-y-auto px-6 py-8">
+        <a href="{{ route('home') }}" class="inline-flex items-center gap-3 rounded-xl text-brand-900">
+            <x-lucide-sparkles class="size-7 shrink-0" />
+            <span class="text-base font-semibold">{{ config('app.name') }}</span>
+        </a>
 
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        @foreach ($menu as $link)
-                            <a href="{{ $link['route'] }}" @class([
-                                'rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors',
-                                'bg-brand-100 text-brand-950' => $link['active'],
-                                'text-brand-600 hover:text-brand-950 focus:text-brand-950' => !$link[
-                                    'active'
-                                ],
-                            ])>
-                                {{ $link['label'] }}
-                            </a>
-                        @endforeach
+        <nav class="space-y-2">
+            @foreach ($menu as $link)
+                <a href="{{ $link['route'] }}" @class([
+                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                    'bg-brand-100 text-brand-950' => $link['active'],
+                    'text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950' => !$link[
+                        'active'
+                    ],
+                ])>
+                    <x-dynamic-component :component="'lucide-' . $link['icon']" class="size-5 shrink-0" />
+                    <span>{{ $link['label'] }}</span>
+                </a>
+            @endforeach
+        </nav>
 
-                        <x-logout-button
-                            class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950" />
-                    </div>
-                </div>
-
-                <div class="flex md:hidden">
-                    <button type="button" wire:cloak wire:click="toggleMobileMenu"
-                        class="relative inline-flex items-center justify-center rounded-md bg-brand-100 p-2 text-brand-900 hover:bg-brand-900 hover:text-white cursor-pointer">
-                        <span class="sr-only">Open main menu</span>
-                        <x-lucide-x wire:show="mobileMenuOpen" class="block size-6" />
-                        <x-lucide-menu wire:show="!mobileMenuOpen" class="block size-6" />
-                    </button>
-                </div>
-            </div>
+        <div class="mt-auto border-t border-brand-200 pt-6">
+            <x-logout-button
+                class="w-full text-left rounded-xl px-3 py-2.5 text-sm font-medium cursor-pointer transition-colors text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950" />
         </div>
-
-        <div wire:show="mobileMenuOpen" wire:cloak class="md:hidden">
-            <div class="space-y-1 pb-3 pt-2">
-                @foreach ($menu as $link)
-                    <a href="{{ $link['route'] }}" @class([
-                        'rounded-xl px-3 py-2 text-sm font-medium block',
-                        'bg-brand-100 text-brand-950' => $link['active'],
-                        'text-brand-600 focus:text-brand-950' => !$link['active'],
-                    ])>
-                        {{ $link['label'] }}
-                    </a>
-                @endforeach
-
-                <x-logout-button
-                    class="w-full text-left rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors text-brand-600 hover:text-brand-950 focus:text-brand-950" />
-            </div>
-        </div>
-    </nav>
-</header>
+    </div>
+</aside>
