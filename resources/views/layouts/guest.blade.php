@@ -23,6 +23,8 @@
         </main>
     </div>
 
+    <x-toast-stack />
+
     @livewireScripts
 </body>
 

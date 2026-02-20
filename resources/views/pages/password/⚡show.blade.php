@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use App\Livewire\Concerns\InteractsWithToasts;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 new #[Layout('layouts::guest')] class extends Component {
+    use InteractsWithToasts;
+
     public string $email = '';
 
     protected function rules(): array
@@ -29,7 +32,7 @@ new #[Layout('layouts::guest')] class extends Component {
         );
 
         session()->regenerate();
-        session()->flash('success', __('passwords.sent'));
+        $this->flashToastSuccess(__('passwords.sent'));
 
         return to_route('login');
     }

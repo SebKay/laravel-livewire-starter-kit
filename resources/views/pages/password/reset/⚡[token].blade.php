@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Livewire\Concerns\InteractsWithToasts;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -11,6 +12,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 new #[Layout('layouts::guest')] class extends Component {
+    use InteractsWithToasts;
+
     public string $token = '';
 
     public string $email = '';
@@ -58,7 +61,7 @@ new #[Layout('layouts::guest')] class extends Component {
             ]),
         );
 
-        session()->flash('success', __('passwords.reset'));
+        $this->flashToastSuccess(__('passwords.reset'));
 
         return to_route('login');
     }

@@ -1,10 +1,13 @@
 <?php
 
+use App\Livewire\Concerns\InteractsWithToasts;
 use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 
 new class extends Component {
+    use InteractsWithToasts;
+
     public User $user;
 
     public string $name;
@@ -39,6 +42,11 @@ new class extends Component {
         if ($this->password) {
             $this->user->updatePassword($this->password);
         }
+
+        $this->toastSuccess(
+            message: __('account.updated'),
+            heading: __('toast.Saved'),
+        );
     }
 };
 ?>
