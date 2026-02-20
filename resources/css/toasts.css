@@ -27,7 +27,7 @@
 }
 
 @utility toast-warning {
-    @apply border-transparent bg-amber-50 text-amber-900;
+    @apply border-0 bg-amber-50 text-amber-900;
 
     .toast-close {
         @apply text-amber-700 hover:bg-amber-100;
