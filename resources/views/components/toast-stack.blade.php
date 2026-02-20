@@ -23,10 +23,14 @@
     x-data="{
         toasts: [],
         timers: {},
+        leaveTimers: {},
         toastListener: null,
+        transitionDurationMs: 200,
         closeLabel: @js(__('toast.Close notification')),
         init() {
             const initialToasts = @js($toasts);
+
+            this.transitionDurationMs = this.resolveTransitionDurationMs();
 
             initialToasts.forEach((toast) => this.push(toast));
 
@@ -44,6 +48,7 @@
             }
 
             Object.keys(this.timers).forEach((id) => this.clearTimer(id));
+            Object.keys(this.leaveTimers).forEach((id) => this.clearLeaveTimer(id));
         },
         push(payload) {
             const toast = this.normalize(payload);
@@ -53,12 +58,19 @@
             }
 
             this.toasts.push(toast);
+            this.$nextTick(() => {
+                const queuedToast = this.toasts.find((candidate) => candidate.id === toast.id);
+
+                if (queuedToast) {
+                    queuedToast.visible = true;
+                }
+            });
 
             if (this.toasts.length > 3) {
-                const oldestToast = this.toasts.shift();
+                const oldestToast = this.toasts.find((candidate) => candidate.id !== toast.id);
 
                 if (oldestToast?.id) {
-                    this.clearTimer(oldestToast.id);
+                    this.remove(oldestToast.id);
                 }
             }
 
@@ -68,7 +80,19 @@
         },
         remove(id) {
             this.clearTimer(id);
-            this.toasts = this.toasts.filter((toast) => toast.id !== id);
+
+            const toast = this.toasts.find((candidate) => candidate.id === id);
+
+            if (!toast || !toast.visible) {
+                return;
+            }
+
+            toast.visible = false;
+            this.clearLeaveTimer(id);
+            this.leaveTimers[id] = setTimeout(() => {
+                this.toasts = this.toasts.filter((candidate) => candidate.id !== id);
+                this.clearLeaveTimer(id);
+            }, this.transitionDurationMs);
         },
         clearTimer(id) {
             if (!this.timers[id]) {
@@ -77,6 +101,39 @@
 
             clearTimeout(this.timers[id]);
             delete this.timers[id];
+        },
+        clearLeaveTimer(id) {
+            if (!this.leaveTimers[id]) {
+                return;
+            }
+
+            clearTimeout(this.leaveTimers[id]);
+            delete this.leaveTimers[id];
+        },
+        resolveTransitionDurationMs() {
+            const cssDuration = getComputedStyle(document.documentElement)
+                .getPropertyValue('--default-transition-duration')
+                .trim();
+
+            if (!cssDuration) {
+                return 200;
+            }
+
+            if (cssDuration.endsWith('ms')) {
+                const milliseconds = Number.parseFloat(cssDuration);
+
+                return Number.isFinite(milliseconds) ? milliseconds : 200;
+            }
+
+            if (cssDuration.endsWith('s')) {
+                const seconds = Number.parseFloat(cssDuration);
+
+                return Number.isFinite(seconds) ? seconds * 1000 : 200;
+            }
+
+            const fallback = Number.parseFloat(cssDuration);
+
+            return Number.isFinite(fallback) ? fallback * 1000 : 200;
         },
         normalize(payload) {
             if (!payload || typeof payload !== 'object') {
@@ -98,6 +155,7 @@
                 variant: normalizedVariant,
                 duration: Number.isFinite(Number(payload.duration)) ? Math.max(Number(payload.duration), 0) : 5000,
                 dismissible: payload.dismissible ?? true,
+                visible: false,
             };
         },
     }"
@@ -113,6 +171,7 @@
                 'toast-error': toast.variant === 'error',
             }"
             role="status"
+            x-show="toast.visible"
             x-transition:enter="transition-opacity"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
