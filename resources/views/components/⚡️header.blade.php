@@ -96,7 +96,7 @@ new class extends Component {
             </div>
 
             <p class="mt-3 px-3 text-xs text-brand-600">
-                {{ config('app.name') }} &copy; {{ date('Y') }}
+                &copy; {{ date('Y') }} <a href="https://sebkay.com/" class="text-link" target="_blank">Seb Kay</a>.
             </p>
         </div>
     </aside>
