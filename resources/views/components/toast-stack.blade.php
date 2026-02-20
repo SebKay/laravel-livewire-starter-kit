@@ -23,17 +23,27 @@
     x-data="{
         toasts: [],
         timers: {},
+        toastListener: null,
         closeLabel: @js(__('toast.Close notification')),
         init() {
             const initialToasts = @js($toasts);
 
             initialToasts.forEach((toast) => this.push(toast));
 
-            window.addEventListener('toast', (event) => {
+            this.toastListener = (event) => {
                 const detail = Array.isArray(event.detail) ? event.detail[0] : event.detail;
 
                 this.push(detail);
-            });
+            };
+
+            window.addEventListener('toast', this.toastListener);
+        },
+        destroy() {
+            if (this.toastListener) {
+                window.removeEventListener('toast', this.toastListener);
+            }
+
+            Object.keys(this.timers).forEach((id) => this.clearTimer(id));
         },
         push(payload) {
             const toast = this.normalize(payload);
@@ -86,7 +96,7 @@
                 message: payload.message,
                 heading: payload.heading || null,
                 variant: normalizedVariant,
-                duration: Number.isInteger(payload.duration) ? Math.max(payload.duration, 0) : 5000,
+                duration: Number.isFinite(Number(payload.duration)) ? Math.max(Number(payload.duration), 0) : 5000,
                 dismissible: payload.dismissible ?? true,
             };
         },
