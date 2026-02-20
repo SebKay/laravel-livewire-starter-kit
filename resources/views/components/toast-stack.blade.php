@@ -23,7 +23,7 @@
     x-data="{
         toasts: [],
         timers: {},
-        closeLabel: @js(__('Close notification')),
+        closeLabel: @js(__('toast.Close notification')),
         init() {
             const initialToasts = @js($toasts);
 
