@@ -95,7 +95,16 @@
     aria-live="polite"
 >
     <template x-for="toast in toasts" :key="toast.id">
-        <article class="toast" :class="`toast-${toast.variant}`" role="status" x-transition.opacity.duration.200ms>
+        <article
+            class="toast"
+            :class="{
+                'toast-success': toast.variant === 'success',
+                'toast-warning': toast.variant === 'warning',
+                'toast-error': toast.variant === 'error',
+            }"
+            role="status"
+            x-transition.opacity.duration.200ms
+        >
             <div class="flex items-start gap-3">
                 <div class="flex-1 min-w-0">
                     <h4 class="toast-heading" x-show="toast.heading" x-text="toast.heading"></h4>
