@@ -97,6 +97,9 @@ describe('Users', function () {
 
 describe('Guests', function () {
     test('Can access the login page', function () {
-        get(route('login'))->assertOk();
+        get(route('login'))
+            ->assertOk()
+            ->assertDontSee(__('navigation.Toggle navigation menu'))
+            ->assertDontSee(__('navigation.Application navigation'));
     });
 });

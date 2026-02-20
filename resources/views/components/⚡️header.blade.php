@@ -11,13 +11,13 @@ new class extends Component {
     {
         $this->menu = [
             [
-                'label' => 'Dashboard',
+                'label' => __('navigation.Dashboard'),
                 'icon' => 'layout-dashboard',
                 'route' => route('home'),
                 'active' => request()->routeIs('home'),
             ],
             [
-                'label' => 'Account',
+                'label' => __('navigation.Account'),
                 'icon' => 'user-circle',
                 'route' => route('account.edit'),
                 'active' => request()->routeIs('account.edit'),
@@ -43,16 +43,17 @@ new class extends Component {
         wire:click="toggleMobileMenu"
         aria-controls="mobile-sidebar"
         aria-expanded="{{ $mobileMenuOpen ? 'true' : 'false' }}"
+        aria-label="{{ __('navigation.Toggle navigation menu') }}"
         class="fixed left-4 top-4 z-50 inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none lg:hidden"
     >
-        <span class="sr-only">Toggle navigation menu</span>
+        <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
         <x-lucide-menu wire:show="!mobileMenuOpen" class="size-5" />
         <x-lucide-x wire:show="mobileMenuOpen" class="size-5" />
     </button>
 
     <aside
         class="hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-brand-200 lg:bg-white"
-        aria-label="Application navigation"
+        aria-label="{{ __('navigation.Application navigation') }}"
     >
         <div class="flex grow flex-col gap-8 overflow-y-auto px-6 py-8">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-3 rounded-xl text-brand-900">
@@ -79,7 +80,7 @@ new class extends Component {
                 <a href="{{ route('account.edit') }}"
                     class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
                     <x-lucide-circle-help class="size-5 shrink-0" />
-                    <span>Help</span>
+                    <span>{{ __('navigation.Help') }}</span>
                 </a>
 
                 <x-logout-button
@@ -100,7 +101,7 @@ new class extends Component {
             'opacity-100' => $mobileMenuOpen,
             'pointer-events-none opacity-0' => !$mobileMenuOpen,
         ])
-        aria-label="Close navigation menu"
+        aria-label="{{ __('navigation.Close navigation menu') }}"
         aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}"
     ></button>
 
@@ -111,7 +112,7 @@ new class extends Component {
             'translate-x-0' => $mobileMenuOpen,
             '-translate-x-full pointer-events-none' => !$mobileMenuOpen,
         ])
-        aria-label="Mobile navigation"
+        aria-label="{{ __('navigation.Mobile navigation') }}"
         aria-modal="true"
         aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}"
         role="dialog"
@@ -140,7 +141,7 @@ new class extends Component {
             <a href="{{ route('account.edit') }}" wire:click="closeMobileMenu"
                 class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
                 <x-lucide-circle-help class="size-5 shrink-0" />
-                <span>Help</span>
+                <span>{{ __('navigation.Help') }}</span>
             </a>
 
             <x-logout-button
