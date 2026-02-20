@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Permission;
+use App\Enums\Role;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Hash;
@@ -46,4 +48,35 @@ describe('With Roles and Permissions', function () {
         expect($adminUser->canAccessPanel())->toBeTrue();
         expect($user->canAccessPanel())->toBeFalse();
     });
+
+    it('returns all permission names through the all_permissions accessor', function () {
+        $user = User::factory()->create();
+        $user->assignRole(Role::SUPER_ADMIN);
+
+        expect($user->all_permissions->all())->toContain(Permission::ACCESS_ADMIN->value);
+        expect($user->all_permissions)->toHaveCount(count(Role::SUPER_ADMIN->permissions()));
+    });
+
+    it('can scope users by role names', function () {
+        $superAdminUser = User::factory()->create();
+        $superAdminUser->assignRole(Role::SUPER_ADMIN);
+
+        $regularUser = User::factory()->create();
+        $regularUser->assignRole(Role::USER);
+
+        $scopedUsers = User::query()
+            ->hasRoles([Role::SUPER_ADMIN->value, Role::ADMIN->value])
+            ->pluck('id');
+
+        expect($scopedUsers->contains($superAdminUser->id))->toBeTrue();
+        expect($scopedUsers->contains($regularUser->id))->toBeFalse();
+    });
+});
+
+it('returns the filament display name', function () {
+    $user = User::factory()->create([
+        'name' => 'Coverage User',
+    ]);
+
+    expect($user->getFilamentName())->toBe('Coverage User');
 });
