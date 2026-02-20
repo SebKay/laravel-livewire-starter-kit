@@ -83,17 +83,19 @@ new class extends Component {
             @endforeach
         </nav>
 
-        <div class="mt-auto space-y-3 border-t border-brand-200 pt-6">
-            <a href="{{ route('account.edit') }}" wire:click="closeMobileMenu"
-                class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
-                <x-lucide-circle-help class="size-5 shrink-0" />
-                <span>{{ __('navigation.Help') }}</span>
-            </a>
+        <div class="mt-auto border-t border-brand-200 pt-6">
+            <div class="space-y-2">
+                <a href="{{ route('account.edit') }}" wire:click="closeMobileMenu"
+                    class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
+                    <x-lucide-circle-help class="size-5 shrink-0" />
+                    <span>{{ __('navigation.Help') }}</span>
+                </a>
 
-            <x-logout-button
-                class="w-full text-left rounded-xl px-3 py-2.5 text-sm font-medium cursor-pointer transition-colors text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none" />
+                <x-logout-button
+                    class="w-full text-left rounded-xl px-3 py-2.5 text-sm font-medium cursor-pointer transition-colors text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none" />
+            </div>
 
-            <p class="px-3 text-xs text-brand-600">
+            <p class="mt-3 px-3 text-xs text-brand-600">
                 {{ config('app.name') }} &copy; {{ date('Y') }}
             </p>
         </div>
