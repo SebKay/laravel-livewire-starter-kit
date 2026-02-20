@@ -106,14 +106,19 @@
 >
     <template x-for="toast in toasts" :key="toast.id">
         <article
-            class="toast"
+            class="toast transition-opacity"
             :class="{
                 'toast-success': toast.variant === 'success',
                 'toast-warning': toast.variant === 'warning',
                 'toast-error': toast.variant === 'error',
             }"
             role="status"
-            x-transition.opacity.duration.200ms
+            x-transition:enter="transition-opacity"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
         >
             <div class="flex items-start gap-3">
                 <div class="flex-1 min-w-0">
