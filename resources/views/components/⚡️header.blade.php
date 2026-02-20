@@ -38,18 +38,20 @@ new class extends Component {
 ?>
 
 <div wire:keydown.escape.window="closeMobileMenu">
-    <button
-        type="button"
-        wire:click="toggleMobileMenu"
-        aria-controls="mobile-sidebar"
-        aria-expanded="{{ $mobileMenuOpen ? 'true' : 'false' }}"
-        aria-label="{{ __('navigation.Toggle navigation menu') }}"
-        class="fixed left-4 top-4 z-50 inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none lg:hidden"
-    >
-        <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
-        <x-lucide-menu wire:show="!mobileMenuOpen" class="size-5" />
-        <x-lucide-x wire:show="mobileMenuOpen" class="size-5" />
-    </button>
+    <div class="px-4 pt-4 sm:px-6 lg:px-8">
+        <button
+            type="button"
+            wire:click="toggleMobileMenu"
+            aria-controls="mobile-sidebar"
+            aria-expanded="{{ $mobileMenuOpen ? 'true' : 'false' }}"
+            aria-label="{{ __('navigation.Toggle navigation menu') }}"
+            class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none"
+        >
+            <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
+            <x-lucide-menu wire:show="!mobileMenuOpen" class="size-5" />
+            <x-lucide-x wire:show="mobileMenuOpen" class="size-5" />
+        </button>
+    </div>
 
     <aside
         class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-brand-200 lg:bg-white"

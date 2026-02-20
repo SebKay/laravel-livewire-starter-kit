@@ -23,6 +23,7 @@ test('it renders sidebar navigation and utility content', function () {
     Livewire::actingAs(User::factory()->create())
         ->test('header')
         ->assertSee('lg:left-0')
+        ->assertDontSee('fixed left-4 top-4')
         ->assertSee(__('navigation.Dashboard'))
         ->assertSee(__('navigation.Account'))
         ->assertSee(__('navigation.Help'))
