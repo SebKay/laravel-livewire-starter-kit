@@ -23,7 +23,7 @@ describe('Users', function () {
             ->assertSee(__('navigation.Application navigation'))
             ->assertSee(__('navigation.Help'))
             ->assertDontSee('All rights reserved.')
-            ->assertDontSee('Seb Kay');
+            ->assertSee('Seb Kay');
     });
 });
 
