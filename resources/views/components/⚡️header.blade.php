@@ -83,8 +83,8 @@ new class extends Component {
             @endforeach
         </nav>
 
-        <div class="mt-auto border-t border-brand-200 pt-6">
-            <div class="space-y-2">
+        <div class="mt-auto">
+            <div class="space-y-2 border-t border-brand-200 mt-6 pt-6">
                 <a href="{{ route('account.edit') }}" wire:click="closeMobileMenu"
                     class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
                     <x-lucide-circle-help class="size-5 shrink-0" />
