@@ -16,7 +16,7 @@
     <div class="min-h-full bg-brand-50 lg:pl-72">
         <livewire:header />
 
-        <main class="pt-4 pb-8 px-4 sm:px-6 lg:px-8 xl:py-16">
+        <main class="py-4 lg:py-8 xl:py-16 px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 {{ $slot }}
             </div>

@@ -38,15 +38,11 @@ new class extends Component {
 ?>
 
 <div wire:keydown.escape.window="closeMobileMenu">
-    <div class="px-4 pt-4 sm:px-6 lg:px-8 lg:hidden">
-        <button
-            type="button"
-            wire:click="toggleMobileMenu"
-            aria-controls="mobile-sidebar"
+    <div class="pt-4 lg:pt-8 px-4 sm:px-6 lg:px-8 lg:hidden">
+        <button type="button" wire:click="toggleMobileMenu" aria-controls="mobile-sidebar"
             aria-expanded="{{ $mobileMenuOpen ? 'true' : 'false' }}"
             aria-label="{{ __('navigation.Toggle navigation menu') }}"
-            class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none"
-        >
+            class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none">
             <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
             <x-lucide-menu wire:show="!mobileMenuOpen" class="size-5" />
             <x-lucide-x wire:show="mobileMenuOpen" class="size-5" />
@@ -55,12 +51,11 @@ new class extends Component {
 
     <aside
         class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-40 lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-brand-200 lg:bg-white"
-        aria-label="{{ __('navigation.Application navigation') }}"
-    >
+        aria-label="{{ __('navigation.Application navigation') }}">
         <div class="flex grow flex-col gap-8 overflow-y-auto px-6 py-8">
             <a href="{{ route('home') }}" class="inline-flex items-center gap-3 rounded-xl text-brand-900">
                 <x-lucide-sparkles class="size-7 shrink-0" />
-                <span class="text-base font-semibold">{{ config('app.name') }}</span>
+                <span class="text-lg font-semibold">App Name</span>
             </a>
 
             <nav class="space-y-2">
@@ -95,33 +90,24 @@ new class extends Component {
         </div>
     </aside>
 
-    <button
-        type="button"
-        wire:click="closeMobileMenu"
-        @class([
-            'fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-[1px] transition-opacity duration-200 motion-reduce:transition-none lg:hidden',
-            'opacity-100' => $mobileMenuOpen,
-            'pointer-events-none opacity-0' => !$mobileMenuOpen,
-        ])
+    <button type="button" wire:click="closeMobileMenu" @class([
+        'fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-[1px] transition-opacity duration-200 motion-reduce:transition-none lg:hidden',
+        'opacity-100' => $mobileMenuOpen,
+        'pointer-events-none opacity-0' => !$mobileMenuOpen,
+    ])
         aria-label="{{ __('navigation.Close navigation menu') }}"
-        aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}"
-    ></button>
+        aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}"></button>
 
-    <aside
-        id="mobile-sidebar"
-        @class([
-            'fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:hidden',
-            'translate-x-0' => $mobileMenuOpen,
-            '-translate-x-full pointer-events-none' => !$mobileMenuOpen,
-        ])
-        aria-label="{{ __('navigation.Mobile navigation') }}"
-        aria-modal="true"
-        aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}"
-        role="dialog"
-    >
-        <a href="{{ route('home') }}" wire:click="closeMobileMenu" class="inline-flex items-center gap-3 rounded-xl text-brand-900">
+    <aside id="mobile-sidebar" @class([
+        'fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:hidden',
+        'translate-x-0' => $mobileMenuOpen,
+        '-translate-x-full pointer-events-none' => !$mobileMenuOpen,
+    ]) aria-label="{{ __('navigation.Mobile navigation') }}"
+        aria-modal="true" aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}" role="dialog">
+        <a href="{{ route('home') }}" wire:click="closeMobileMenu"
+            class="inline-flex items-center gap-3 rounded-xl text-brand-900">
             <x-lucide-sparkles class="size-7 shrink-0" />
-            <span class="text-base font-semibold">{{ config('app.name') }}</span>
+            <span class="text-lg font-semibold">App Name</span>
         </a>
 
         <nav class="mt-8 space-y-2">
