@@ -61,18 +61,17 @@ new class extends Component {
         'fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none',
         'translate-x-0' => $mobileMenuOpen,
         '-translate-x-full pointer-events-none' => !$mobileMenuOpen,
-    ]) aria-label="{{ __('navigation.Application navigation') }}"
-    >
+    ]) aria-label="{{ __('navigation.Application navigation') }}">
         <a href="{{ route('home') }}" wire:click="closeMobileMenu"
-            class="inline-flex items-center gap-3 rounded-xl text-brand-900">
+            class="inline-flex items-center gap-2 rounded-xl text-brand-900">
             <x-lucide-sparkles class="size-7 shrink-0" />
-            <span class="text-lg font-semibold">{{ config('app.name') }}</span>
+            <span class="text-lg font-semibold">App Name</span>
         </a>
 
         <nav class="mt-8 space-y-2">
             @foreach ($menu as $link)
                 <a href="{{ $link['route'] }}" wire:click="closeMobileMenu" @class([
-                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none',
+                    'flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none',
                     'bg-brand-100 text-brand-950' => $link['active'],
                     'text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950' => !$link[
                         'active'
@@ -86,7 +85,7 @@ new class extends Component {
 
         <div class="mt-auto space-y-3 border-t border-brand-200 pt-6">
             <a href="{{ route('account.edit') }}" wire:click="closeMobileMenu"
-                class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
+                class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
                 <x-lucide-circle-help class="size-5 shrink-0" />
                 <span>{{ __('navigation.Help') }}</span>
             </a>
