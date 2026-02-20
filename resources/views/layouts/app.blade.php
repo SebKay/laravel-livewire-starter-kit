@@ -25,6 +25,8 @@
         <x-footer class="mt-auto" />
     </div>
 
+    <x-toast-stack />
+
     @livewireScripts
 </body>
 
