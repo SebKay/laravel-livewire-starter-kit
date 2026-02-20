@@ -58,7 +58,7 @@ new class extends Component {
         aria-hidden="{{ $mobileMenuOpen ? 'false' : 'true' }}"></button>
 
     <aside id="mobile-sidebar" @class([
-        'fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none',
+        'fixed inset-y-0 left-0 z-50 flex w-72 flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none',
         'translate-x-0' => $mobileMenuOpen,
         '-translate-x-full pointer-events-none' => !$mobileMenuOpen,
     ]) aria-label="{{ __('navigation.Application navigation') }}">
