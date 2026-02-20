@@ -13,16 +13,14 @@
 </head>
 
 <body class="h-full font-text text-neutral-700">
-    <div class="min-h-full flex flex-col">
+    <div class="min-h-full bg-brand-50 lg:pl-72">
         <livewire:header />
 
-        <main class="xl:py-16 py-8 px-4 sm:px-6 xl:px-8">
+        <main class="py-4 lg:py-8 xl:py-16 px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 {{ $slot }}
             </div>
         </main>
-
-        <x-footer class="mt-auto" />
     </div>
 
     <x-toast-stack />

@@ -19,7 +19,11 @@ describe('Users', function () {
     test('Can access the home page', function () {
         actingAs(User::factory()->create())
             ->get(route('home'))
-            ->assertOk();
+            ->assertOk()
+            ->assertSee(__('navigation.Application navigation'))
+            ->assertSee(__('navigation.Help'))
+            ->assertDontSee('All rights reserved.')
+            ->assertSee('Seb Kay');
     });
 });
 
