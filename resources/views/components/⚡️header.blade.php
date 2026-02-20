@@ -38,7 +38,7 @@ new class extends Component {
 ?>
 
 <div wire:keydown.escape.window="closeMobileMenu">
-    <div class="px-4 pt-4 sm:px-6 lg:px-8">
+    <div class="px-4 pt-4 sm:px-6 lg:px-8 lg:hidden">
         <button
             type="button"
             wire:click="toggleMobileMenu"
