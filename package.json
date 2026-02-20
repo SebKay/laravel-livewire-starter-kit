@@ -13,7 +13,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "watch": "vite watch",
+        "watch": "vite build --watch",
         "build": "vite build"
     }
 }
