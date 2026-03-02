@@ -18,6 +18,8 @@ test('it renders sidebar navigation and utility content', function () {
     Livewire::actingAs(User::factory()->create())
         ->test('sidebar')
         ->assertSee('left-0')
+        ->assertSee('-translate-x-full')
+        ->assertSee('pointer-events-none opacity-0')
         ->assertSee('lg:hidden')
         ->assertSee('overflow-y-auto')
         ->assertDontSee('space-y-3')

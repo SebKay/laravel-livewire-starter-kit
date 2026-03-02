@@ -39,7 +39,7 @@ new class extends Component {
     </div>
 
     <button type="button" wire:click="$js.closeMobileMenu"
-        class="fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-[1px] transition-opacity duration-200 motion-reduce:transition-none lg:hidden"
+        class="fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-[1px] pointer-events-none opacity-0 transition-opacity duration-200 motion-reduce:transition-none lg:hidden"
         x-bind:class="{
             'opacity-100': mobileMenuOpen,
             'pointer-events-none opacity-0': !mobileMenuOpen
@@ -48,7 +48,7 @@ new class extends Component {
         x-bind:tabindex="mobileMenuOpen ? '0' : '-1'"></button>
 
     <aside id="mobile-sidebar"
-        class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none"
+        class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full pointer-events-none flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none"
         x-bind:class="{
             'translate-x-0': mobileMenuOpen,
             '-translate-x-full pointer-events-none': !mobileMenuOpen
