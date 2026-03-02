@@ -1,0 +1,115 @@
+<?php
+
+use Livewire\Component;
+
+new class extends Component {
+    public array $menu = [];
+
+    public function mount(): void
+    {
+        $this->menu = [
+            [
+                'label' => __('navigation.Dashboard'),
+                'icon' => 'layout-dashboard',
+                'route' => route('home'),
+                'active' => request()->routeIs('home'),
+            ],
+            [
+                'label' => __('navigation.Account'),
+                'icon' => 'user-circle',
+                'route' => route('account.edit'),
+                'active' => request()->routeIs('account.edit'),
+            ],
+        ];
+    }
+};
+?>
+
+<div x-data="{ mobileMenuOpen: false }" x-on:sidebar-mobile-menu-toggle="mobileMenuOpen = !mobileMenuOpen"
+    x-on:sidebar-mobile-menu-close="if (mobileMenuOpen) { $refs.mobileMenuToggle?.focus() } mobileMenuOpen = false"
+    wire:keydown.escape.window="$js.closeMobileMenu">
+    <div class="pt-4 lg:pt-8 px-4 sm:px-6 lg:px-8 lg:hidden">
+        <button type="button" x-ref="mobileMenuToggle" wire:click="$js.toggleMobileMenu" aria-controls="mobile-sidebar"
+            x-bind:aria-expanded="mobileMenuOpen ? 'true' : 'false'"
+            aria-label="{{ __('navigation.Toggle navigation menu') }}"
+            class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none">
+            <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
+            <x-lucide-menu class="size-5" />
+        </button>
+    </div>
+
+    <button type="button" wire:click="$js.closeMobileMenu"
+        class="fixed inset-0 z-40 bg-brand-950/50 backdrop-blur-[1px] pointer-events-none opacity-0 transition-opacity duration-200 motion-reduce:transition-none lg:hidden"
+        x-bind:class="{
+            'opacity-100': mobileMenuOpen,
+            'pointer-events-none opacity-0': !mobileMenuOpen
+        }"
+        aria-label="{{ __('navigation.Close navigation menu') }}" x-bind:inert="!mobileMenuOpen"
+        x-bind:tabindex="mobileMenuOpen ? '0' : '-1'"></button>
+
+    <aside id="mobile-sidebar"
+        class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full pointer-events-none flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none"
+        x-bind:class="{
+            'translate-x-0': mobileMenuOpen,
+            '-translate-x-full pointer-events-none': !mobileMenuOpen
+        }"
+        aria-label="{{ __('navigation.Application navigation') }}">
+        <div class="flex items-center justify-between gap-3">
+            <a href="{{ route('home') }}" wire:click="$js.closeMobileMenu"
+                class="inline-flex items-center gap-2 rounded-xl text-brand-900">
+                <x-lucide-sparkles class="size-6 sm:size-7 shrink-0" />
+                <span class="text-lg font-semibold">App Name</span>
+            </a>
+
+            <button type="button" wire:click="$js.closeMobileMenu" aria-label="{{ __('navigation.Close navigation menu') }}"
+                class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none lg:hidden">
+                <span class="sr-only">{{ __('navigation.Close navigation menu') }}</span>
+                <x-lucide-x class="size-5" />
+            </button>
+        </div>
+
+        <nav class="mt-8 space-y-2">
+            @foreach ($menu as $link)
+                <a href="{{ $link['route'] }}" wire:click="$js.closeMobileMenu" @class([
+                    'flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none',
+                    'bg-brand-100 text-brand-950' => $link['active'],
+                    'text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950' => !$link[
+                        'active'
+                    ],
+                ])>
+                    <x-dynamic-component :component="'lucide-' . $link['icon']" class="size-5 shrink-0" />
+                    <span>{{ $link['label'] }}</span>
+                </a>
+            @endforeach
+        </nav>
+
+        <div class="mt-auto">
+            <div class="space-y-2 border-t border-brand-200 mt-6 pt-6">
+                <a href="{{ route('account.edit') }}" wire:click="$js.closeMobileMenu"
+                    class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
+                    <x-lucide-circle-help class="size-5 shrink-0" />
+                    <span>{{ __('navigation.Help') }}</span>
+                </a>
+
+                <x-logout-button
+                    class="w-full text-left rounded-xl px-3 py-2.5 text-sm font-medium cursor-pointer transition-colors text-brand-700 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none" />
+            </div>
+
+            <p class="mt-3 px-3 text-xs text-brand-600">
+                &copy; {{ date('Y') }} <a href="https://sebkay.com/" class="text-link" target="_blank">Seb Kay</a>.
+            </p>
+        </div>
+    </aside>
+</div>
+
+@script
+    <script>
+        this.$js.toggleMobileMenu = () => {
+            $wire.$dispatch('sidebar-mobile-menu-toggle');
+        };
+
+        this.$js.closeMobileMenu = () => {
+            $wire.$dispatch('sidebar-mobile-menu-close');
+        };
+    </script>
+@endscript
