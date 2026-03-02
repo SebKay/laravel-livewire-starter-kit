@@ -95,12 +95,14 @@ new class extends Component {
     </aside>
 </div>
 
-<script>
-    this.$js.toggleMobileMenu = () => {
-        this.$wire.$el.dispatchEvent(new CustomEvent('sidebar-mobile-menu-toggle'));
-    };
+@script
+    <script>
+        this.$js.toggleMobileMenu = () => {
+            $wire.$dispatch('sidebar-mobile-menu-toggle');
+        };
 
-    this.$js.closeMobileMenu = () => {
-        this.$wire.$el.dispatchEvent(new CustomEvent('sidebar-mobile-menu-close'));
-    };
-</script>
+        this.$js.closeMobileMenu = () => {
+            $wire.$dispatch('sidebar-mobile-menu-close');
+        };
+    </script>
+@endscript
