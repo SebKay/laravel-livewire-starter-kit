@@ -5,13 +5,13 @@ use Livewire\Livewire;
 
 test('it defaults mobile navigation to closed', function () {
     Livewire::actingAs(User::factory()->create())
-        ->test('header')
+        ->test('sidebar')
         ->assertSet('mobileMenuOpen', false);
 });
 
 test('it toggles and closes the mobile navigation drawer', function () {
     Livewire::actingAs(User::factory()->create())
-        ->test('header')
+        ->test('sidebar')
         ->assertSet('mobileMenuOpen', false)
         ->call('toggleMobileMenu')
         ->assertSet('mobileMenuOpen', true)
@@ -21,7 +21,7 @@ test('it toggles and closes the mobile navigation drawer', function () {
 
 test('it renders sidebar navigation and utility content', function () {
     Livewire::actingAs(User::factory()->create())
-        ->test('header')
+        ->test('sidebar')
         ->assertSee('left-0')
         ->assertSee('lg:hidden')
         ->assertSee('overflow-y-auto')
