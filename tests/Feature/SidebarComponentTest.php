@@ -8,7 +8,10 @@ test('it uses javascript actions for the mobile navigation drawer', function () 
         ->test('sidebar')
         ->assertSee('wire:click="$js.toggleMobileMenu"', false)
         ->assertSee('wire:click="$js.closeMobileMenu"', false)
-        ->assertSee('wire:keydown.escape.window="$js.closeMobileMenu"', false);
+        ->assertSee('wire:keydown.escape.window="$js.closeMobileMenu"', false)
+        ->assertSee('wire:click="$js.closeMobileMenu" aria-label="Close navigation menu"', false)
+        ->assertDontSee('x-bind:class="{ \'hidden\': mobileMenuOpen }"', false)
+        ->assertDontSee('x-bind:class="{ \'hidden\': !mobileMenuOpen }"', false);
 });
 
 test('it renders sidebar navigation and utility content', function () {

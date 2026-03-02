@@ -22,7 +22,6 @@ new class extends Component {
             ],
         ];
     }
-
 };
 ?>
 
@@ -35,8 +34,7 @@ new class extends Component {
             aria-label="{{ __('navigation.Toggle navigation menu') }}"
             class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none">
             <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
-            <x-lucide-menu class="size-5" x-bind:class="{ 'hidden': mobileMenuOpen }" />
-            <x-lucide-x class="size-5 hidden" x-bind:class="{ 'hidden': !mobileMenuOpen }" />
+            <x-lucide-menu class="size-5" />
         </button>
     </div>
 
@@ -56,11 +54,19 @@ new class extends Component {
             '-translate-x-full pointer-events-none': !mobileMenuOpen
         }"
         aria-label="{{ __('navigation.Application navigation') }}">
-        <a href="{{ route('home') }}" wire:click="$js.closeMobileMenu"
-            class="inline-flex items-center gap-2 rounded-xl text-brand-900">
-            <x-lucide-sparkles class="size-7 shrink-0" />
-            <span class="text-lg font-semibold">App Name</span>
-        </a>
+        <div class="flex items-center justify-between gap-3">
+            <a href="{{ route('home') }}" wire:click="$js.closeMobileMenu"
+                class="inline-flex items-center gap-2 rounded-xl text-brand-900">
+                <x-lucide-sparkles class="size-6 sm:size-7 shrink-0" />
+                <span class="text-lg font-semibold">App Name</span>
+            </a>
+
+            <button type="button" wire:click="$js.closeMobileMenu" aria-label="{{ __('navigation.Close navigation menu') }}"
+                class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none lg:hidden">
+                <span class="sr-only">{{ __('navigation.Close navigation menu') }}</span>
+                <x-lucide-x class="size-5" />
+            </button>
+        </div>
 
         <nav class="mt-8 space-y-2">
             @foreach ($menu as $link)
