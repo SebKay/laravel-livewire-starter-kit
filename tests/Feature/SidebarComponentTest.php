@@ -3,20 +3,12 @@
 use App\Models\User;
 use Livewire\Livewire;
 
-test('it defaults mobile navigation to closed', function () {
+test('it uses javascript actions for the mobile navigation drawer', function () {
     Livewire::actingAs(User::factory()->create())
         ->test('sidebar')
-        ->assertSet('mobileMenuOpen', false);
-});
-
-test('it toggles and closes the mobile navigation drawer', function () {
-    Livewire::actingAs(User::factory()->create())
-        ->test('sidebar')
-        ->assertSet('mobileMenuOpen', false)
-        ->call('toggleMobileMenu')
-        ->assertSet('mobileMenuOpen', true)
-        ->call('closeMobileMenu')
-        ->assertSet('mobileMenuOpen', false);
+        ->assertSee('wire:click="$js.toggleMobileMenu"', false)
+        ->assertSee('wire:click="$js.closeMobileMenu"', false)
+        ->assertSee('wire:keydown.escape.window="$js.closeMobileMenu"', false);
 });
 
 test('it renders sidebar navigation and utility content', function () {
