@@ -27,9 +27,10 @@ new class extends Component {
 ?>
 
 <div x-data="{ mobileMenuOpen: false }" x-on:sidebar-mobile-menu-toggle="mobileMenuOpen = !mobileMenuOpen"
-    x-on:sidebar-mobile-menu-close="mobileMenuOpen = false" wire:keydown.escape.window="$js.closeMobileMenu">
+    x-on:sidebar-mobile-menu-close="if (mobileMenuOpen) { $refs.mobileMenuToggle?.focus() } mobileMenuOpen = false"
+    wire:keydown.escape.window="$js.closeMobileMenu">
     <div class="pt-4 lg:pt-8 px-4 sm:px-6 lg:px-8 lg:hidden">
-        <button type="button" wire:click="$js.toggleMobileMenu" aria-controls="mobile-sidebar"
+        <button type="button" x-ref="mobileMenuToggle" wire:click="$js.toggleMobileMenu" aria-controls="mobile-sidebar"
             x-bind:aria-expanded="mobileMenuOpen ? 'true' : 'false'"
             aria-label="{{ __('navigation.Toggle navigation menu') }}"
             class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none">
@@ -45,8 +46,8 @@ new class extends Component {
             'opacity-100': mobileMenuOpen,
             'pointer-events-none opacity-0': !mobileMenuOpen
         }"
-        aria-label="{{ __('navigation.Close navigation menu') }}"
-        x-bind:aria-hidden="mobileMenuOpen ? 'false' : 'true'"></button>
+        aria-label="{{ __('navigation.Close navigation menu') }}" x-bind:inert="!mobileMenuOpen"
+        x-bind:tabindex="mobileMenuOpen ? '0' : '-1'"></button>
 
     <aside id="mobile-sidebar"
         class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none"
