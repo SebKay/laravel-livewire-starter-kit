@@ -27,17 +27,12 @@ uses(TestCase::class, RefreshDatabase::class)
     })
     ->in('Architecture', 'Integration');
 
-function superAdminUser()
+function super()
 {
-    return User::whereEmail(\config('seed.users.super.email'))->first();
-}
-
-function adminUser()
-{
-    return User::whereEmail(\config('seed.users.admin.email'))->first();
+    return User::whereEmail(config('seed.users.super.email'))->first();
 }
 
 function user()
 {
-    return User::whereEmail(\config('seed.users.users.email'))->first();
+    return User::whereEmail(config('seed.users.users.email'))->first();
 }
