@@ -1,5 +1,5 @@
 @if ($slot->hasActualContent())
-    <p class="field-error">
+    <p {{ $attributes->merge(['class' => 'field-error']) }}>
         {{ $slot }}
     </p>
 @endif
