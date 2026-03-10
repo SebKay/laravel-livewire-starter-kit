@@ -9,6 +9,7 @@ use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Livewire\Blaze\Blaze;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
 use Spatie\Health\Checks\Checks\DatabaseConnectionCountCheck;
 use Spatie\Health\Checks\Checks\DebugModeCheck;
@@ -21,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        Blaze::optimize()->in(resource_path('views/components'));
+
         URL::forceHttps(app()->environment([Environment::PRODUCTION->value, Environment::STAGING->value]));
 
         Model::automaticallyEagerLoadRelationships();
