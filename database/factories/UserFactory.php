@@ -16,9 +16,9 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => \fake()->name(),
-            'email' => \fake()->unique()->safeEmail(),
-            'email_verified_at' => \now(),
+            'name' => fake()->name(),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
             'password' => Hash::make(config('seed.users.super.password')),
             'remember_token' => Str::random(10),
         ];
