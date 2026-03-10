@@ -6,7 +6,7 @@ return [
     'nav' => 'Application navigation',
     'close' => 'Close navigation menu',
     'dashboard' => 'Dashboard',
-    'Logout' => 'Logout',
+    'logout' => 'Logout',
     'elements' => 'Elements',
     'toggle' => 'Toggle navigation menu',
 
