@@ -2,18 +2,21 @@
 
 function renderToastStack(): string
 {
-    return str_replace(
+    $html = str_replace(
         ['\u0022', '\u0027', '\u003C', '\u003E', '\u0026'],
         ['"', "'", '<', '>', '&'],
         html_entity_decode(view('components.toast-stack')->render(), ENT_QUOTES),
     );
+
+    return preg_replace('/\s+/', ' ', $html) ?? $html;
 }
 
 it('binds the toast stack component to the alpine factory', function () {
     $html = renderToastStack();
 
     expect($html)
-        ->toContain('x-data="toastStack({ initialToasts: []')
+        ->toContain('x-data="toastStack({')
+        ->toContain('initialToasts: []')
         ->toContain("closeLabel: '".__('toast.close')."'")
         ->toContain('x-on:toast.window="receive($event.detail)"');
 });
