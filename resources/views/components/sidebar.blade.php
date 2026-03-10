@@ -17,13 +17,17 @@
 
 <div>
     <div class="pt-4 lg:pt-8 px-4 sm:px-6 lg:px-8 lg:hidden">
-        <button type="button" id="mobile-menu-toggle" aria-controls="mobile-sidebar" aria-expanded="false"
+        <button type="button" data-sidebar-toggle aria-controls="mobile-sidebar" aria-expanded="false"
             aria-label="{{ __('navigation.Toggle navigation menu') }}"
             class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none">
             <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
             <x-lucide-menu class="size-5" />
         </button>
     </div>
+
+    <button type="button" data-sidebar-wash data-sidebar-close tabindex="-1"
+        aria-label="{{ __('navigation.Close navigation menu') }}" aria-hidden="true"
+        class="fixed inset-0 z-40 pointer-events-none bg-brand-950/30 opacity-0 transition-opacity duration-200 motion-reduce:transition-none lg:hidden"></button>
 
     <aside id="mobile-sidebar"
         class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full pointer-events-none flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none"
@@ -75,3 +79,67 @@
         </div>
     </aside>
 </div>
+
+<script>
+    (() => {
+        const initializeSidebar = () => {
+            const sidebar = document.querySelector(@js('#mobile-sidebar'));
+            const toggleButton = document.querySelector(@js('[data-sidebar-toggle]'));
+            const wash = document.querySelector(@js('[data-sidebar-wash]'));
+            const closeButtons = document.querySelectorAll(@js('[data-sidebar-close]'));
+
+            if (!sidebar || !toggleButton || !wash || sidebar.dataset.mobileSidebarInitialized === 'true') {
+                return;
+            }
+
+            sidebar.dataset.mobileSidebarInitialized = 'true';
+
+            let isOpen = false;
+
+            const setSidebarState = (nextState) => {
+                isOpen = nextState;
+
+                sidebar.classList.toggle('translate-x-0', isOpen);
+                sidebar.classList.toggle('-translate-x-full', !isOpen);
+                sidebar.classList.toggle('pointer-events-auto', isOpen);
+                sidebar.classList.toggle('pointer-events-none', !isOpen);
+                wash.classList.toggle('pointer-events-auto', isOpen);
+                wash.classList.toggle('pointer-events-none', !isOpen);
+                wash.classList.toggle('opacity-100', isOpen);
+                wash.classList.toggle('opacity-0', !isOpen);
+                wash.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+                toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                document.body.classList.toggle('overflow-hidden', isOpen);
+            };
+
+            toggleButton.addEventListener('click', () => {
+                setSidebarState(!isOpen);
+            });
+
+            closeButtons.forEach((closeButton) => {
+                closeButton.addEventListener('click', () => {
+                    setSidebarState(false);
+                });
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    setSidebarState(false);
+                }
+            });
+
+            setSidebarState(false);
+        };
+
+        if (!window.mobileSidebarListenersRegistered) {
+            document.addEventListener('DOMContentLoaded', initializeSidebar, {
+                once: true
+            });
+            document.addEventListener('livewire:navigated', initializeSidebar);
+
+            window.mobileSidebarListenersRegistered = true;
+        }
+
+        initializeSidebar();
+    })();
+</script>
