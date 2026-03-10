@@ -34,6 +34,10 @@ type ToastStackComponent = {
     destroy(): void;
 };
 
+type ToastStackInstance = ToastStackComponent & {
+    $nextTick(callback: () => void): void;
+};
+
 type AlpineFactory = {
     data(
         name: string,
@@ -137,9 +141,12 @@ document.addEventListener("alpine:init", () => {
             const leaveTimers = new Map<string, number>();
             let transitionDurationMs = fallbackTransitionDurationMs;
 
-            const setToastVisible = (id: string): void => {
-                queueMicrotask(() => {
-                    const queuedToast = component.toasts.find(
+            const setToastVisible = (
+                stack: ToastStackInstance,
+                id: string,
+            ): void => {
+                stack.$nextTick(() => {
+                    const queuedToast = stack.toasts.find(
                         (candidate) => candidate.id === id,
                     );
 
@@ -171,38 +178,38 @@ document.addEventListener("alpine:init", () => {
                 leaveTimers.delete(id);
             };
 
-            const component: ToastStackComponent = {
+            return {
                 toasts: [],
                 closeLabel: config.closeLabel,
-                init() {
+                init(this: ToastStackInstance) {
                     transitionDurationMs = resolveTransitionDurationMs();
 
                     for (const toast of config.initialToasts) {
-                        component.push(toast);
+                        this.push(toast);
                     }
                 },
-                receive(detail) {
+                receive(this: ToastStackInstance, detail) {
                     const payload = Array.isArray(detail) ? detail[0] : detail;
 
-                    component.push(payload);
+                    this.push(payload);
                 },
-                push(payload) {
+                push(this: ToastStackInstance, payload) {
                     const toast = normalizeToast(payload);
 
                     if (!toast) {
                         return;
                     }
 
-                    component.toasts.push(toast);
-                    setToastVisible(toast.id);
+                    this.toasts.push(toast);
+                    setToastVisible(this, toast.id);
 
-                    if (component.toasts.length > visibleToastLimit) {
-                        const oldestToast = component.toasts.find(
+                    if (this.toasts.length > visibleToastLimit) {
+                        const oldestToast = this.toasts.find(
                             (candidate) => candidate.id !== toast.id,
                         );
 
                         if (oldestToast?.id) {
-                            component.remove(oldestToast.id);
+                            this.remove(oldestToast.id);
                         }
                     }
 
@@ -219,7 +226,7 @@ document.addEventListener("alpine:init", () => {
                 remove(id) {
                     clearTimer(id);
 
-                    const toast = component.toasts.find(
+                    const toast = this.toasts.find(
                         (candidate) => candidate.id === id,
                     );
 
@@ -233,7 +240,7 @@ document.addEventListener("alpine:init", () => {
                     leaveTimers.set(
                         id,
                         window.setTimeout(() => {
-                            component.toasts = component.toasts.filter(
+                            this.toasts = this.toasts.filter(
                                 (candidate) => candidate.id !== id,
                             );
                             clearLeaveTimer(id);
@@ -250,8 +257,6 @@ document.addEventListener("alpine:init", () => {
                     }
                 },
             };
-
-            return component;
         },
     );
 });
