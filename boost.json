@@ -10,12 +10,14 @@
     "nightwatch_mcp": false,
     "packages": [
         "filament/filament",
-        "spatie/laravel-ray"
+        "spatie/laravel-ray",
+        "spatie/laravel-permission"
     ],
     "sail": false,
     "skills": [
         "pest-testing",
         "tailwindcss-development",
+        "laravel-permission-development",
         "debugging-output-and-previewing-html-using-ray"
     ]
 }
