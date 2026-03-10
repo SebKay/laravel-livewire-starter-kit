@@ -26,7 +26,7 @@ it('updates account details and dispatches a success toast', function () {
             return $event === 'toast'
                 && data_get($params, 'variant') === 'success'
                 && data_get($params, 'message') === __('account.updated')
-                && data_get($params, 'heading') === __('toast.Saved');
+                && data_get($params, 'heading') === __('toast.saved');
         });
 
     $updatedUser = $user->fresh();

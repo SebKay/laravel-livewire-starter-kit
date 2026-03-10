@@ -20,8 +20,8 @@ describe('Users', function () {
         actingAs(User::factory()->create())
             ->get(route('home'))
             ->assertOk()
-            ->assertSee(__('navigation.Application navigation'))
-            ->assertSee(__('navigation.Help'))
+            ->assertSee(__('navigation.nav'))
+            ->assertSee(__('navigation.elements'))
             ->assertDontSee('All rights reserved.')
             ->assertSee('Seb Kay');
     });

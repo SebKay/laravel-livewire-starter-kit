@@ -43,10 +43,7 @@ new class extends Component {
             $this->user->updatePassword($this->password);
         }
 
-        $this->toastSuccess(
-            message: __('account.updated'),
-            heading: __('toast.Saved'),
-        );
+        $this->toastSuccess(message: __('account.updated'), heading: __('toast.saved'));
     }
 };
 ?>

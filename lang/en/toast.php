@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'Close notification' => 'Close notification',
-    'Saved' => 'Saved',
+    'close' => 'Close notification',
+    'saved' => 'Saved',
 ];

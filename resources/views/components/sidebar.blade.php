@@ -1,13 +1,13 @@
 @php
     $menu = [
         [
-            'label' => __('navigation.Dashboard'),
+            'label' => __('navigation.dashboard'),
             'icon' => 'layout-dashboard',
             'route' => route('home'),
             'active' => request()->routeIs('home'),
         ],
         [
-            'label' => __('navigation.Account'),
+            'label' => __('navigation.account'),
             'icon' => 'user-circle',
             'route' => route('account.edit'),
             'active' => request()->routeIs('account.edit'),
@@ -18,20 +18,20 @@
 <div>
     <div class="pt-4 lg:pt-8 px-4 sm:px-6 lg:px-8 lg:hidden">
         <button type="button" data-sidebar-toggle aria-controls="mobile-sidebar" aria-expanded="false"
-            aria-label="{{ __('navigation.Toggle navigation menu') }}"
+            aria-label="{{ __('navigation.toggle') }}"
             class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none">
-            <span class="sr-only">{{ __('navigation.Toggle navigation menu') }}</span>
+            <span class="sr-only">{{ __('navigation.toggle') }}</span>
             <x-lucide-menu class="size-5" />
         </button>
     </div>
 
-    <button type="button" data-sidebar-wash data-sidebar-close tabindex="-1"
-        aria-label="{{ __('navigation.Close navigation menu') }}" aria-hidden="true"
+    <button type="button" data-sidebar-wash data-sidebar-close tabindex="-1" aria-label="{{ __('navigation.close') }}"
+        aria-hidden="true"
         class="fixed inset-0 z-40 pointer-events-none bg-brand-950/30 opacity-0 transition-opacity duration-200 motion-reduce:transition-none lg:hidden"></button>
 
     <aside id="mobile-sidebar"
         class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full pointer-events-none flex-col overflow-y-auto overscroll-contain border-r border-brand-200 bg-white px-6 py-8 shadow-xl transition-transform duration-200 motion-reduce:transition-none lg:z-40 lg:translate-x-0 lg:pointer-events-auto lg:shadow-none"
-        aria-label="{{ __('navigation.Application navigation') }}">
+        aria-label="{{ __('navigation.nav') }}">
         <div class="flex items-center justify-between gap-3">
             <a href="{{ route('home') }}" data-sidebar-close
                 class="inline-flex items-center gap-2 rounded-xl text-brand-900">
@@ -39,9 +39,9 @@
                 <span class="text-lg font-semibold">App Name</span>
             </a>
 
-            <button type="button" data-sidebar-close aria-label="{{ __('navigation.Close navigation menu') }}"
+            <button type="button" data-sidebar-close aria-label="{{ __('navigation.close') }}"
                 class="inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white p-2 text-brand-900 shadow-sm transition-colors duration-200 hover:bg-brand-50 motion-reduce:transition-none lg:hidden">
-                <span class="sr-only">{{ __('navigation.Close navigation menu') }}</span>
+                <span class="sr-only">{{ __('navigation.close') }}</span>
                 <x-lucide-x class="size-5" />
             </button>
         </div>
@@ -66,7 +66,7 @@
                 <a href="{{ route('elements') }}" data-sidebar-close
                     class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-brand-700 transition-colors duration-200 hover:bg-brand-50 hover:text-brand-950 focus-visible:bg-brand-50 focus-visible:text-brand-950 motion-reduce:transition-none">
                     <x-lucide-circle-help class="size-5 shrink-0" />
-                    <span>{{ __('navigation.Elements') }}</span>
+                    <span>{{ __('navigation.elements') }}</span>
                 </a>
 
                 <x-logout-button data-sidebar-close
