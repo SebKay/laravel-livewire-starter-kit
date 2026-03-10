@@ -1,13 +1,4 @@
-<?php
-
-use Livewire\Component;
-
-new class extends Component {
-    //
-};
-?>
-
-<div>
+<x-layouts::app>
     <h1 class="xl:text-4xl text-3xl font-medium text-neutral-900 xl:mb-8 mb-4">
         Elements
     </h1>
@@ -143,4 +134,4 @@ new class extends Component {
             </div>
         </div>
     </div>
-</div>
+</x-layouts::app>
