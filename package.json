@@ -5,12 +5,17 @@
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/vite": "^4.2.1",
         "laravel-vite-plugin": "^2.1.0",
+        "prettier": "^3.8.1",
+        "prettier-plugin-blade": "^3.0.0",
+        "prettier-plugin-tailwindcss": "^0.7.2",
         "tailwindcss": "^4.2.1",
         "vite": "^7.3.1"
     },
     "scripts": {
         "dev": "vite",
         "watch": "vite build --watch",
-        "build": "vite build"
+        "build": "vite build",
+        "lint": "prettier --check \"resources/js/**/*.ts\" \"resources/views/**/*.blade.php\" \"vite.config.js\" \"package.json\" \"prettier.config.mjs\"",
+        "fix": "prettier --write \"resources/js/**/*.ts\" \"resources/views/**/*.blade.php\" \"vite.config.js\" \"package.json\" \"prettier.config.mjs\""
     }
 }

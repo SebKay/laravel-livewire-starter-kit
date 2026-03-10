@@ -61,48 +61,65 @@ new #[Layout('layouts::guest')] class extends Component {
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Register" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6">
+    <div class="rounded-2xl bg-white p-6 xl:p-10">
         <form wire:submit="register">
             <div class="form-row">
                 <div class="form-col">
-                    <label class="label" for="name">
-                        Name
-                    </label>
+                    <label class="label" for="name"> Name </label>
 
-                    <input id="name" class="input" type="text" name="name" required wire:model="name" />
+                    <input
+                        id="name"
+                        class="input"
+                        type="text"
+                        name="name"
+                        required
+                        wire:model="name"
+                    />
 
-                    @error('name')
+                    @error ('name')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="email">
-                        Email
-                    </label>
+                    <label class="label" for="email"> Email </label>
 
-                    <input id="email" class="input" type="email" name="email" required wire:model="email" />
+                    <input
+                        id="email"
+                        class="input"
+                        type="email"
+                        name="email"
+                        required
+                        wire:model="email"
+                    />
 
-                    @error('email')
+                    @error ('email')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="password">
-                        Password
-                    </label>
+                    <label class="label" for="password"> Password </label>
 
-                    <input id="password" class="input" type="password" name="password" required
-                        wire:model="password" />
+                    <input
+                        id="password"
+                        class="input"
+                        type="password"
+                        name="password"
+                        required
+                        wire:model="password"
+                    />
 
-                    @error('password')
+                    @error ('password')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <button class="button button-full" wire:submit.prevent="register">
+                    <button
+                        class="button button-full"
+                        wire:submit.prevent="register"
+                    >
                         Register
                     </button>
                 </div>

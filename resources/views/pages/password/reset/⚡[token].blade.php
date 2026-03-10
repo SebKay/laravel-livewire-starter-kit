@@ -71,30 +71,39 @@ new #[Layout('layouts::guest')] class extends Component {
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Reset Password" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6">
+    <div class="rounded-2xl bg-white p-6 xl:p-10">
         <form wire:submit="resetPassword">
             <div class="form-row">
                 <div class="form-col">
-                    <label class="label" for="email">
-                        Email
-                    </label>
+                    <label class="label" for="email"> Email </label>
 
-                    <input id="email" class="input" type="email" name="email" wire:model="email" required />
+                    <input
+                        id="email"
+                        class="input"
+                        type="email"
+                        name="email"
+                        wire:model="email"
+                        required
+                    />
 
-                    @error('email')
+                    @error ('email')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="password">
-                        New Password
-                    </label>
+                    <label class="label" for="password"> New Password </label>
 
-                    <input id="password" class="input" type="password" name="password" wire:model="password"
-                        required />
+                    <input
+                        id="password"
+                        class="input"
+                        type="password"
+                        name="password"
+                        wire:model="password"
+                        required
+                    />
 
-                    @error('password')
+                    @error ('password')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
@@ -104,10 +113,16 @@ new #[Layout('layouts::guest')] class extends Component {
                         Confirm Password
                     </label>
 
-                    <input id="password_confirmation" class="input" type="password" name="password_confirmation"
-                        wire:model="password_confirmation" required />
+                    <input
+                        id="password_confirmation"
+                        class="input"
+                        type="password"
+                        name="password_confirmation"
+                        wire:model="password_confirmation"
+                        required
+                    />
 
-                    @error('password_confirmation')
+                    @error ('password_confirmation')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
@@ -115,7 +130,10 @@ new #[Layout('layouts::guest')] class extends Component {
                 <input type="hidden" name="token" wire:model="token" />
 
                 <div class="form-col">
-                    <button class="button button-full" wire:submit.prevent="resetPassword">
+                    <button
+                        class="button button-full"
+                        wire:submit.prevent="resetPassword"
+                    >
                         Reset Password
                     </button>
                 </div>

@@ -16,11 +16,9 @@ new class extends Component {
 ?>
 
 <div>
-    <h1 class="xl:text-4xl text-3xl font-medium text-neutral-900 xl:mb-8 mb-4">
+    <h1 class="mb-4 text-3xl font-medium text-neutral-900 xl:mb-8 xl:text-4xl">
         {{ $title }}
     </h1>
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6">
-        Dashboard
-    </div>
+    <div class="rounded-2xl bg-white p-6 xl:p-10">Dashboard</div>
 </div>

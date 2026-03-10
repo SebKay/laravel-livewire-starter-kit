@@ -100,6 +100,6 @@ describe('Guests', function () {
         get(route('login'))
             ->assertOk()
             ->assertDontSee(__('navigation.Toggle navigation menu'))
-            ->assertDontSee(__('navigation.Application navigation'));
+            ->assertDontSee(__('navigation.nav'));
     });
 });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Vite;
 use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
@@ -20,9 +21,11 @@ describe('Users', function () {
         actingAs(User::factory()->create())
             ->get(route('home'))
             ->assertOk()
-            ->assertSee(__('navigation.Application navigation'))
-            ->assertSee(__('navigation.Help'))
+            ->assertSee(__('navigation.nav'))
+            ->assertSee(__('navigation.elements'))
+            ->assertSee(Vite::asset('resources/js/app.ts'))
             ->assertDontSee('All rights reserved.')
+            ->assertDontSee('mobileSidebarListenersRegistered')
             ->assertSee('Seb Kay');
     });
 });

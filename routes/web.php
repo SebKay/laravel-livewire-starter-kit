@@ -7,7 +7,7 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
 Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
-Route::livewire('elements', 'pages::elements')->middleware(['auth', 'role:'.Role::SUPER->value])->name('elements');
+Route::view('elements', 'pages.elements')->middleware(['auth', 'role:'.Role::SUPER->value])->name('elements');
 
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
 

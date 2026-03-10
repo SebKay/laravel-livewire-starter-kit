@@ -1,12 +1,13 @@
 <?php
 
 return [
-    'Account' => 'Account',
-    'Application navigation' => 'Application navigation',
-    'Close navigation menu' => 'Close navigation menu',
-    'Dashboard' => 'Dashboard',
-    'Help' => 'Help',
-    'Logout' => 'Logout',
-    'Mobile navigation' => 'Mobile navigation',
-    'Toggle navigation menu' => 'Toggle navigation menu',
+
+    'account' => 'Account',
+    'nav' => 'Application navigation',
+    'close' => 'Close navigation menu',
+    'dashboard' => 'Dashboard',
+    'logout' => 'Logout',
+    'elements' => 'Elements',
+    'toggle' => 'Toggle navigation menu',
+
 ];

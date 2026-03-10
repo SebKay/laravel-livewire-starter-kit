@@ -1,6 +1,6 @@
 @php
     $toasts = collect(session('toasts', []))
-        ->filter(fn (mixed $toast): bool => is_array($toast) && filled($toast['message'] ?? null))
+        ->filter(fn(mixed $toast): bool => is_array($toast) && filled($toast['message'] ?? null))
         ->map(function (array $toast): array {
             $duration = isset($toast['duration']) ? (int) $toast['duration'] : 5000;
 
@@ -20,145 +20,8 @@
 @endphp
 
 <div
-    x-data="{
-        toasts: [],
-        timers: {},
-        leaveTimers: {},
-        toastListener: null,
-        transitionDurationMs: 200,
-        closeLabel: @js(__('toast.Close notification')),
-        init() {
-            const initialToasts = @js($toasts);
-
-            this.transitionDurationMs = this.resolveTransitionDurationMs();
-
-            initialToasts.forEach((toast) => this.push(toast));
-
-            this.toastListener = (event) => {
-                const detail = Array.isArray(event.detail) ? event.detail[0] : event.detail;
-
-                this.push(detail);
-            };
-
-            window.addEventListener('toast', this.toastListener);
-        },
-        destroy() {
-            if (this.toastListener) {
-                window.removeEventListener('toast', this.toastListener);
-            }
-
-            Object.keys(this.timers).forEach((id) => this.clearTimer(id));
-            Object.keys(this.leaveTimers).forEach((id) => this.clearLeaveTimer(id));
-        },
-        push(payload) {
-            const toast = this.normalize(payload);
-
-            if (!toast) {
-                return;
-            }
-
-            this.toasts.push(toast);
-            this.$nextTick(() => {
-                const queuedToast = this.toasts.find((candidate) => candidate.id === toast.id);
-
-                if (queuedToast) {
-                    queuedToast.visible = true;
-                }
-            });
-
-            if (this.toasts.length > 3) {
-                const oldestToast = this.toasts.find((candidate) => candidate.id !== toast.id);
-
-                if (oldestToast?.id) {
-                    this.remove(oldestToast.id);
-                }
-            }
-
-            if (toast.duration > 0) {
-                this.timers[toast.id] = setTimeout(() => this.remove(toast.id), toast.duration);
-            }
-        },
-        remove(id) {
-            this.clearTimer(id);
-
-            const toast = this.toasts.find((candidate) => candidate.id === id);
-
-            if (!toast || !toast.visible) {
-                return;
-            }
-
-            toast.visible = false;
-            this.clearLeaveTimer(id);
-            this.leaveTimers[id] = setTimeout(() => {
-                this.toasts = this.toasts.filter((candidate) => candidate.id !== id);
-                this.clearLeaveTimer(id);
-            }, this.transitionDurationMs);
-        },
-        clearTimer(id) {
-            if (!this.timers[id]) {
-                return;
-            }
-
-            clearTimeout(this.timers[id]);
-            delete this.timers[id];
-        },
-        clearLeaveTimer(id) {
-            if (!this.leaveTimers[id]) {
-                return;
-            }
-
-            clearTimeout(this.leaveTimers[id]);
-            delete this.leaveTimers[id];
-        },
-        resolveTransitionDurationMs() {
-            const cssDuration = getComputedStyle(document.documentElement)
-                .getPropertyValue('--default-transition-duration')
-                .trim();
-
-            if (!cssDuration) {
-                return 200;
-            }
-
-            if (cssDuration.endsWith('ms')) {
-                const milliseconds = Number.parseFloat(cssDuration);
-
-                return Number.isFinite(milliseconds) ? milliseconds : 200;
-            }
-
-            if (cssDuration.endsWith('s')) {
-                const seconds = Number.parseFloat(cssDuration);
-
-                return Number.isFinite(seconds) ? seconds * 1000 : 200;
-            }
-
-            const fallback = Number.parseFloat(cssDuration);
-
-            return Number.isFinite(fallback) ? fallback * 1000 : 200;
-        },
-        normalize(payload) {
-            if (!payload || typeof payload !== 'object') {
-                return null;
-            }
-
-            if (!payload.message) {
-                return null;
-            }
-
-            const normalizedVariant = ['success', 'warning', 'error'].includes(payload.variant)
-                ? payload.variant
-                : 'success';
-
-            return {
-                id: payload.id || `${Date.now()}-${Math.random()}`,
-                message: payload.message,
-                heading: payload.heading || null,
-                variant: normalizedVariant,
-                duration: Number.isFinite(Number(payload.duration)) ? Math.max(Number(payload.duration), 0) : 5000,
-                dismissible: payload.dismissible ?? true,
-                visible: false,
-            };
-        },
-    }"
+    x-data="toastStack({ initialToasts: @js($toasts), closeLabel: @js(__('toast.close')) })"
+    x-on:toast.window="receive($event.detail)"
     class="toast-stack"
     aria-live="polite"
 >
@@ -180,8 +43,12 @@
             x-transition:leave-end="opacity-0"
         >
             <div class="flex items-start gap-3">
-                <div class="flex-1 min-w-0">
-                    <h4 class="toast-heading" x-show="toast.heading" x-text="toast.heading"></h4>
+                <div class="min-w-0 flex-1">
+                    <h4
+                        class="toast-heading"
+                        x-show="toast.heading"
+                        x-text="toast.heading"
+                    ></h4>
                     <p class="toast-message" x-text="toast.message"></p>
                 </div>
 
