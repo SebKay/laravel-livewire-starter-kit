@@ -1,4 +1,4 @@
-type ToastVariant = 'success' | 'warning' | 'error';
+type ToastVariant = "success" | "warning" | "error";
 
 type ToastPayload = {
     id?: string | null;
@@ -27,7 +27,6 @@ type ToastItem = {
 type ToastStackComponent = {
     toasts: ToastItem[];
     closeLabel: string;
-    $nextTick(callback: () => void): void;
     init(): void;
     receive(detail: unknown): void;
     push(payload: unknown): void;
@@ -36,19 +35,16 @@ type ToastStackComponent = {
 };
 
 type AlpineFactory = {
-    data(name: string, callback: (config: ToastStackConfig) => ToastStackComponent): void;
+    data(
+        name: string,
+        callback: (config: ToastStackConfig) => ToastStackComponent,
+    ): void;
 };
-
-declare global {
-    interface Window {
-        Alpine?: AlpineFactory;
-    }
-}
 
 const fallbackTransitionDurationMs = 200;
 const defaultToastDurationMs = 5000;
 const visibleToastLimit = 3;
-const validVariants: ToastVariant[] = ['success', 'warning', 'error'];
+const validVariants: ToastVariant[] = ["success", "warning", "error"];
 
 const isToastVariant = (variant: unknown): variant is ToastVariant => {
     return validVariants.includes(variant as ToastVariant);
@@ -56,28 +52,34 @@ const isToastVariant = (variant: unknown): variant is ToastVariant => {
 
 const resolveTransitionDurationMs = (): number => {
     const cssDuration = getComputedStyle(document.documentElement)
-        .getPropertyValue('--default-transition-duration')
+        .getPropertyValue("--default-transition-duration")
         .trim();
 
     if (!cssDuration) {
         return fallbackTransitionDurationMs;
     }
 
-    if (cssDuration.endsWith('ms')) {
+    if (cssDuration.endsWith("ms")) {
         const milliseconds = Number.parseFloat(cssDuration);
 
-        return Number.isFinite(milliseconds) ? milliseconds : fallbackTransitionDurationMs;
+        return Number.isFinite(milliseconds)
+            ? milliseconds
+            : fallbackTransitionDurationMs;
     }
 
-    if (cssDuration.endsWith('s')) {
+    if (cssDuration.endsWith("s")) {
         const seconds = Number.parseFloat(cssDuration);
 
-        return Number.isFinite(seconds) ? seconds * 1000 : fallbackTransitionDurationMs;
+        return Number.isFinite(seconds)
+            ? seconds * 1000
+            : fallbackTransitionDurationMs;
     }
 
     const fallback = Number.parseFloat(cssDuration);
 
-    return Number.isFinite(fallback) ? fallback * 1000 : fallbackTransitionDurationMs;
+    return Number.isFinite(fallback)
+        ? fallback * 1000
+        : fallbackTransitionDurationMs;
 };
 
 const createToastId = (): string => {
@@ -85,129 +87,171 @@ const createToastId = (): string => {
 };
 
 const normalizeToast = (payload: unknown): ToastItem | null => {
-    if (!payload || typeof payload !== 'object') {
+    if (!payload || typeof payload !== "object") {
         return null;
     }
 
     const candidate = payload as ToastPayload;
 
-    if (typeof candidate.message !== 'string' || candidate.message.length === 0) {
+    if (
+        typeof candidate.message !== "string" ||
+        candidate.message.length === 0
+    ) {
         return null;
     }
 
     const duration = Number(candidate.duration);
 
     return {
-        id: typeof candidate.id === 'string' && candidate.id.length > 0 ? candidate.id : createToastId(),
+        id:
+            typeof candidate.id === "string" && candidate.id.length > 0
+                ? candidate.id
+                : createToastId(),
         message: candidate.message,
-        heading: typeof candidate.heading === 'string' && candidate.heading.length > 0 ? candidate.heading : null,
-        variant: isToastVariant(candidate.variant) ? candidate.variant : 'success',
-        duration: Number.isFinite(duration) ? Math.max(duration, 0) : defaultToastDurationMs,
-        dismissible: typeof candidate.dismissible === 'boolean' ? candidate.dismissible : true,
+        heading:
+            typeof candidate.heading === "string" &&
+            candidate.heading.length > 0
+                ? candidate.heading
+                : null,
+        variant: isToastVariant(candidate.variant)
+            ? candidate.variant
+            : "success",
+        duration: Number.isFinite(duration)
+            ? Math.max(duration, 0)
+            : defaultToastDurationMs,
+        dismissible:
+            typeof candidate.dismissible === "boolean"
+                ? candidate.dismissible
+                : true,
         visible: false,
     };
 };
 
-document.addEventListener('alpine:init', () => {
-    window.Alpine?.data('toastStack', (config: ToastStackConfig): ToastStackComponent => {
-        const timers = new Map<string, number>();
-        const leaveTimers = new Map<string, number>();
-        let transitionDurationMs = fallbackTransitionDurationMs;
+document.addEventListener("alpine:init", () => {
+    const alpine = (window as Window & { Alpine?: AlpineFactory }).Alpine;
 
-        const clearTimer = (id: string): void => {
-            const timer = timers.get(id);
+    alpine?.data(
+        "toastStack",
+        (config: ToastStackConfig): ToastStackComponent => {
+            const timers = new Map<string, number>();
+            const leaveTimers = new Map<string, number>();
+            let transitionDurationMs = fallbackTransitionDurationMs;
 
-            if (timer === undefined) {
-                return;
-            }
-
-            window.clearTimeout(timer);
-            timers.delete(id);
-        };
-
-        const clearLeaveTimer = (id: string): void => {
-            const timer = leaveTimers.get(id);
-
-            if (timer === undefined) {
-                return;
-            }
-
-            window.clearTimeout(timer);
-            leaveTimers.delete(id);
-        };
-
-        return {
-            toasts: [],
-            closeLabel: config.closeLabel,
-            init() {
-                transitionDurationMs = resolveTransitionDurationMs();
-
-                for (const toast of config.initialToasts) {
-                    this.push(toast);
-                }
-            },
-            receive(detail) {
-                const payload = Array.isArray(detail) ? detail[0] : detail;
-
-                this.push(payload);
-            },
-            push(payload) {
-                const toast = normalizeToast(payload);
-
-                if (!toast) {
-                    return;
-                }
-
-                this.toasts.push(toast);
-                this.$nextTick(() => {
-                    const queuedToast = this.toasts.find((candidate) => candidate.id === toast.id);
+            const setToastVisible = (id: string): void => {
+                queueMicrotask(() => {
+                    const queuedToast = component.toasts.find(
+                        (candidate) => candidate.id === id,
+                    );
 
                     if (queuedToast) {
                         queuedToast.visible = true;
                     }
                 });
+            };
 
-                if (this.toasts.length > visibleToastLimit) {
-                    const oldestToast = this.toasts.find((candidate) => candidate.id !== toast.id);
+            const clearTimer = (id: string): void => {
+                const timer = timers.get(id);
 
-                    if (oldestToast?.id) {
-                        this.remove(oldestToast.id);
-                    }
-                }
-
-                if (toast.duration > 0) {
-                    timers.set(toast.id, window.setTimeout(() => this.remove(toast.id), toast.duration));
-                }
-            },
-            remove(id) {
-                clearTimer(id);
-
-                const toast = this.toasts.find((candidate) => candidate.id === id);
-
-                if (!toast || !toast.visible) {
+                if (timer === undefined) {
                     return;
                 }
 
-                toast.visible = false;
-                clearLeaveTimer(id);
+                window.clearTimeout(timer);
+                timers.delete(id);
+            };
 
-                leaveTimers.set(
-                    id,
-                    window.setTimeout(() => {
-                        this.toasts = this.toasts.filter((candidate) => candidate.id !== id);
-                        clearLeaveTimer(id);
-                    }, transitionDurationMs),
-                );
-            },
-            destroy() {
-                for (const id of timers.keys()) {
+            const clearLeaveTimer = (id: string): void => {
+                const timer = leaveTimers.get(id);
+
+                if (timer === undefined) {
+                    return;
+                }
+
+                window.clearTimeout(timer);
+                leaveTimers.delete(id);
+            };
+
+            const component: ToastStackComponent = {
+                toasts: [],
+                closeLabel: config.closeLabel,
+                init() {
+                    transitionDurationMs = resolveTransitionDurationMs();
+
+                    for (const toast of config.initialToasts) {
+                        component.push(toast);
+                    }
+                },
+                receive(detail) {
+                    const payload = Array.isArray(detail) ? detail[0] : detail;
+
+                    component.push(payload);
+                },
+                push(payload) {
+                    const toast = normalizeToast(payload);
+
+                    if (!toast) {
+                        return;
+                    }
+
+                    component.toasts.push(toast);
+                    setToastVisible(toast.id);
+
+                    if (component.toasts.length > visibleToastLimit) {
+                        const oldestToast = component.toasts.find(
+                            (candidate) => candidate.id !== toast.id,
+                        );
+
+                        if (oldestToast?.id) {
+                            component.remove(oldestToast.id);
+                        }
+                    }
+
+                    if (toast.duration > 0) {
+                        timers.set(
+                            toast.id,
+                            window.setTimeout(
+                                () => this.remove(toast.id),
+                                toast.duration,
+                            ),
+                        );
+                    }
+                },
+                remove(id) {
                     clearTimer(id);
-                }
 
-                for (const id of leaveTimers.keys()) {
+                    const toast = component.toasts.find(
+                        (candidate) => candidate.id === id,
+                    );
+
+                    if (!toast || !toast.visible) {
+                        return;
+                    }
+
+                    toast.visible = false;
                     clearLeaveTimer(id);
-                }
-            },
-        };
-    });
+
+                    leaveTimers.set(
+                        id,
+                        window.setTimeout(() => {
+                            component.toasts = component.toasts.filter(
+                                (candidate) => candidate.id !== id,
+                            );
+                            clearLeaveTimer(id);
+                        }, transitionDurationMs),
+                    );
+                },
+                destroy() {
+                    for (const id of Array.from(timers.keys())) {
+                        clearTimer(id);
+                    }
+
+                    for (const id of Array.from(leaveTimers.keys())) {
+                        clearLeaveTimer(id);
+                    }
+                },
+            };
+
+            return component;
+        },
+    );
 });
