@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -31,37 +31,23 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function superAdmin(?string $email = null)
+    public function super(?string $email = null)
     {
-        return $this
-            ->state(fn (array $attributes) => [
-                'email' => config('seed.users.super.email'),
-                'password' => Hash::make(config('seed.users.super.password')),
-            ])
+        return $this->state(fn (array $attributes) => [
+            'email' => config('seed.users.super.email'),
+            'password' => Hash::make(config('seed.users.super.password')),
+        ])
             ->afterCreating(function (User $user) {
-                $user->assignRole(Role::SUPER_ADMIN);
-            });
-    }
-
-    public function admin()
-    {
-        return $this
-            ->state(fn (array $attributes) => [
-                'email' => config('seed.users.admin.email'),
-                'password' => Hash::make(config('seed.users.admin.password')),
-            ])
-            ->afterCreating(function (User $user) {
-                $user->assignRole(Role::ADMIN);
+                $user->assignRole(Role::SUPER);
             });
     }
 
     public function user()
     {
-        return $this
-            ->state(fn (array $attributes) => [
-                'email' => config('seed.users.user.email'),
-                'password' => Hash::make(config('seed.users.user.password')),
-            ])
+        return $this->state(fn (array $attributes) => [
+            'email' => config('seed.users.user.email'),
+            'password' => Hash::make(config('seed.users.user.password')),
+        ])
             ->afterCreating(function (User $user) {
                 $user->assignRole(Role::USER);
             });

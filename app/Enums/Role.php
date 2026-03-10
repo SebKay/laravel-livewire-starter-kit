@@ -8,8 +8,7 @@ enum Role: string
 {
     use Enum;
 
-    case SUPER_ADMIN = 'super-admin';
-    case ADMIN = 'admin';
+    case SUPER = 'super';
     case USER = 'user';
 
     /**
@@ -20,27 +19,11 @@ enum Role: string
     public function permissions(): array
     {
         return match ($this) {
-            self::SUPER_ADMIN => [
+            self::SUPER => [
                 Permission::ACCESS_ADMIN,
-                Permission::CREATE_POSTS,
-                Permission::VIEW_POSTS,
-                Permission::EDIT_POSTS,
-                Permission::UPDATE_POSTS,
-                Permission::DELETE_POSTS,
-            ],
-            self::ADMIN => [
-                Permission::CREATE_POSTS,
-                Permission::VIEW_POSTS,
-                Permission::EDIT_POSTS,
-                Permission::UPDATE_POSTS,
-                Permission::DELETE_POSTS,
             ],
             self::USER => [
-                Permission::CREATE_POSTS,
-                Permission::VIEW_POSTS,
-                Permission::EDIT_POSTS,
-                Permission::UPDATE_POSTS,
-                Permission::DELETE_POSTS,
+                //
             ],
         };
     }

@@ -1,15 +1,17 @@
 <?php
 
 use App\Enums\Role;
+use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Route;
+use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
-Route::get('health', Spatie\Health\Http\Controllers\HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value]);
+Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
-Route::livewire('elements', 'pages::elements')->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value])->name('elements');
+Route::livewire('elements', 'pages::elements')->middleware(['auth', 'role:'.Role::SUPER->value])->name('elements');
 
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
 
-Route::post('logout', App\Livewire\Actions\Logout::class)->middleware(['auth'])->name('logout');
+Route::post('logout', Logout::class)->middleware(['auth'])->name('logout');
 
 Route::livewire('forgot-password', 'pages::password.show')->middleware(['guest', 'throttle:6,1'])->name('password');
 Route::livewire('reset-password/{token}', 'pages::password.reset.[token]')->middleware(['guest', 'throttle:6,1'])->name('password.reset');

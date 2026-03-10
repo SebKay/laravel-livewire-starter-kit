@@ -21,10 +21,6 @@ new class extends Component {
     </h1>
 
     <div class="bg-white rounded-2xl xl:p-10 p-6">
-        @if ($user->can(\App\Enums\Permission::CREATE_POSTS))
-            <p>User can create posts.</p>
-        @else
-            <p>User can't create posts.</p>
-        @endif
+        Dashboard
     </div>
 </div>
