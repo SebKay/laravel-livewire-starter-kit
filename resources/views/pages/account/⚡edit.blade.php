@@ -49,55 +49,67 @@ new class extends Component {
 ?>
 
 <div class="mx-auto max-w-3xl">
-    <h1 class="xl:text-4xl text-3xl font-medium text-neutral-900 xl:mb-8 mb-4">
+    <h1 class="mb-4 text-3xl font-medium text-neutral-900 xl:mb-8 xl:text-4xl">
         Update Account
     </h1>
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6">
+    <div class="rounded-2xl bg-white p-6 xl:p-10">
         <form wire:submit="update">
             <div class="form-row">
                 <div class="form-col">
-                    <label class="label" for="name">
-                        Name
-                    </label>
+                    <label class="label" for="name"> Name </label>
 
-                    <input id="name" class="input" type="text" name="name" required wire:model="name" />
+                    <input
+                        id="name"
+                        class="input"
+                        type="text"
+                        name="name"
+                        required
+                        wire:model="name"
+                    />
 
-                    @error('name')
+                    @error ('name')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="email">
-                        Email
-                    </label>
+                    <label class="label" for="email"> Email </label>
 
-                    <input id="email" class="input" type="email" name="email" required wire:model="email" />
+                    <input
+                        id="email"
+                        class="input"
+                        type="email"
+                        name="email"
+                        required
+                        wire:model="email"
+                    />
 
-                    @error('email')
+                    @error ('email')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="password">
-                        Password
-                    </label>
+                    <label class="label" for="password"> Password </label>
 
-                    <input id="password" class="input" type="password" name="password" wire:model="password" />
+                    <input
+                        id="password"
+                        class="input"
+                        type="password"
+                        name="password"
+                        wire:model="password"
+                    />
 
                     <p class="field-hint">Leave blank to keep current password</p>
 
-                    @error('password')
+                    @error ('password')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
-                    <button class="button" wire:submit="update">
-                        Update
-                    </button>
+                    <button class="button" wire:submit="update">Update</button>
                 </div>
             </div>
         </form>

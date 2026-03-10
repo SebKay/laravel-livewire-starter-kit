@@ -61,17 +61,22 @@ new #[Layout('layouts::guest')] class extends Component {
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Log In" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6">
+    <div class="rounded-2xl bg-white p-6 xl:p-10">
         <form wire:submit="login">
             <div class="form-row">
                 <div class="form-col">
-                    <label class="label" for="email">
-                        Email
-                    </label>
+                    <label class="label" for="email"> Email </label>
 
-                    <input id="email" class="input" type="email" name="email" wire:model="email" required />
+                    <input
+                        id="email"
+                        class="input"
+                        type="email"
+                        name="email"
+                        wire:model="email"
+                        required
+                    />
 
-                    @error('email')
+                    @error ('email')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
@@ -79,29 +84,39 @@ new #[Layout('layouts::guest')] class extends Component {
                 <div class="form-col">
                     <label class="label flex justify-between" for="password">
                         Password
-                        <a href="{{ route('password') }}" class="text-link">Forgot password?</a>
+                        <a href="{{ route('password') }}" class="text-link"
+                            >Forgot password?</a
+                        >
                     </label>
 
-                    <input id="password" class="input" type="password" name="password" wire:model="password"
-                        required />
+                    <input
+                        id="password"
+                        class="input"
+                        type="password"
+                        name="password"
+                        wire:model="password"
+                        required
+                    />
 
-                    @error('password')
+                    @error ('password')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
 
                 <div class="form-col">
                     <label class="toggle">
-                        <input class="sr-only peer" type="checkbox" name="remember" value="1"
-                            wire:model="remember" />
-                        <div>
-                        </div>
-                        <span>
-                            Remember me
-                        </span>
+                        <input
+                            class="peer sr-only"
+                            type="checkbox"
+                            name="remember"
+                            value="1"
+                            wire:model="remember"
+                        />
+                        <div></div>
+                        <span> Remember me </span>
                     </label>
 
-                    @error('remember')
+                    @error ('remember')
                         <x-field-error>{{ $message }}</x-field-error>
                     @enderror
                 </div>
@@ -109,7 +124,10 @@ new #[Layout('layouts::guest')] class extends Component {
                 <input type="hidden" name="redirect" wire:model="redirect" />
 
                 <div class="form-col">
-                    <button class="button button-full" wire:submit.prevent="login">
+                    <button
+                        class="button button-full"
+                        wire:submit.prevent="login"
+                    >
                         Log In
                     </button>
                 </div>
@@ -117,7 +135,7 @@ new #[Layout('layouts::guest')] class extends Component {
         </form>
 
         <div class="mt-6 xl:mt-10">
-            <p class="text-center mt-3">
+            <p class="mt-3 text-center">
                 Don't have an account?
                 <a href="{{ route('register') }}" class="text-link">Register</a>
             </p>

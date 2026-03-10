@@ -62,11 +62,9 @@ new #[Layout('layouts::guest')] class extends Component {
 <div class="mx-auto max-w-2xl">
     <x-page-title text="Verify Your Email" />
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6">
+    <div class="rounded-2xl bg-white p-6 xl:p-10">
         <div class="text-center">
-            <p>
-                Please verify your email address by clicking on the link we just emailed to you.
-            </p>
+            <p>Please verify your email address by clicking on the link we just emailed to you.</p>
 
             <button class="button mt-6" wire:click="resend">
                 Resend Verification Email
@@ -75,7 +73,7 @@ new #[Layout('layouts::guest')] class extends Component {
     </div>
 
     <div class="mt-6 xl:mt-10">
-        <div class="text-center mt-3">
+        <div class="mt-3 text-center">
             <x-logout-button class="text-link" />
         </div>
     </div>
