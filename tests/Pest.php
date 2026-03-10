@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 |
 */
 
-uses(Tests\TestCase::class, RefreshDatabase::class)
+uses(TestCase::class, RefreshDatabase::class)
     ->beforeEach(function () {
         $this->artisan('db:seed --class=TestsSeeder');
     })
     ->in('Feature', '../resources/views');
 
-uses(Tests\TestCase::class, RefreshDatabase::class)
+uses(TestCase::class, RefreshDatabase::class)
     ->beforeEach(function () {
         $this->withoutVite();
     })
@@ -34,4 +35,9 @@ function superAdminUser()
 function adminUser()
 {
     return User::whereEmail(\config('seed.users.admin.email'))->first();
+}
+
+function user()
+{
+    return User::whereEmail(\config('seed.users.users.email'))->first();
 }
