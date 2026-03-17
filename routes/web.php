@@ -7,14 +7,16 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
 Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
-Route::view('elements', 'pages.elements')->middleware(['auth', 'role:'.Role::SUPER->value])->name('elements');
+Route::view('elements', 'pages.elements')->middleware(['auth', 'password.confirm', 'role:'.Role::SUPER->value])->name('elements');
 
 Route::livewire('login', 'pages::login.show')->middleware(['guest'])->name('login');
 
 Route::post('logout', Logout::class)->middleware(['auth'])->name('logout');
 
-Route::livewire('forgot-password', 'pages::password.show')->middleware(['guest', 'throttle:6,1'])->name('password');
-Route::livewire('reset-password/{token}', 'pages::password.reset.[token]')->middleware(['guest', 'throttle:6,1'])->name('password.reset');
+Route::livewire('password', 'pages::confirm-password.show')->middleware(['auth'])->name('password.confirm');
+
+Route::livewire('forgot-password', 'pages::forgot-password.show')->middleware(['guest', 'throttle:6,1'])->name('password');
+Route::livewire('reset-password/{token}', 'pages::forgot-password.reset.[token]')->middleware(['guest', 'throttle:6,1'])->name('password.reset');
 
 Route::livewire('register', 'pages::register.show')->middleware(['guest'])->name('register');
 

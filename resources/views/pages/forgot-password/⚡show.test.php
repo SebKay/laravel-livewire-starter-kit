@@ -9,7 +9,7 @@ it('sends reset link and flashes a success toast payload', function () {
 
     Notification::fake();
 
-    Livewire::test('pages::password.show')
+    Livewire::test('pages::forgot-password.show')
         ->set('email', $user->email)
         ->call('sendResetLink')
         ->assertHasNoErrors()
@@ -21,7 +21,7 @@ it('sends reset link and flashes a success toast payload', function () {
 });
 
 it('keeps inline validation and does not flash a success toast payload on failure', function () {
-    Livewire::test('pages::password.show')
+    Livewire::test('pages::forgot-password.show')
         ->set('email', 'missing@example.com')
         ->call('sendResetLink')
         ->assertHasErrors(['email' => 'exists'])

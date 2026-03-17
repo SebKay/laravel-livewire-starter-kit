@@ -12,7 +12,7 @@ When making plans, always use the following skills: brainstorming and planner.
 
 # Auth And User Flow
 
-- Guest auth flows live in Volt single-file components: `resources/views/pages/login/⚡show.blade.php`, `resources/views/pages/register/⚡show.blade.php`, `resources/views/pages/password/⚡show.blade.php`, and `resources/views/pages/password/reset/⚡[token].blade.php`.
+- Guest auth flows live in Volt single-file components: `resources/views/pages/login/⚡show.blade.php`, `resources/views/pages/register/⚡show.blade.php`, `resources/views/pages/forgot-password/⚡show.blade.php`, and `resources/views/pages/forgot-password/reset/⚡[token].blade.php`.
 - Authenticated account flows live in `resources/views/pages/dashboard/⚡index.blade.php`, `resources/views/pages/account/⚡edit.blade.php`, and `resources/views/pages/verification/⚡show.blade.php`.
 - Home (`/`) and account (`/account`) require `auth` and `verified`. Email verification notice/confirm routes are separate and the confirm route is signed.
 - Logout is not a controller; `POST /logout` resolves `App\Livewire\Actions\Logout`, which logs out, regenerates the CSRF token, invalidates the session, and redirects to `login`.
@@ -67,7 +67,7 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.18
+- php - 8.4.19
 - filament/filament (FILAMENT) - v5
 - laravel/framework (LARAVEL) - v12
 - laravel/nightwatch (NIGHTWATCH) - v1

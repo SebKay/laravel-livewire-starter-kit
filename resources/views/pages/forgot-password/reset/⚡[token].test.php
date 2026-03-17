@@ -11,7 +11,7 @@ it('resets password and flashes a success toast payload', function () {
     $token = Password::createToken($user);
 
     Livewire::withQueryParams(['email' => $user->email])
-        ->test('pages::password.reset.[token]', ['token' => $token])
+        ->test('pages::forgot-password.reset.[token]', ['token' => $token])
         ->set('password', 'newPassword#123')
         ->set('password_confirmation', 'newPassword#123')
         ->call('resetPassword')
@@ -30,7 +30,7 @@ it('keeps inline validation and does not flash a success toast payload on failur
     $token = Password::createToken($user);
 
     Livewire::withQueryParams(['email' => $user->email])
-        ->test('pages::password.reset.[token]', ['token' => $token])
+        ->test('pages::forgot-password.reset.[token]', ['token' => $token])
         ->set('password', 'newPassword#123')
         ->set('password_confirmation', 'does-not-match')
         ->call('resetPassword')
