@@ -59,15 +59,15 @@ new #[Layout('layouts::app')] class extends Component {
                 </div>
 
                 <div class="form-col">
-                    <button class="button button-full" type="submit">Confirm</button>
+                    <button class="button button-full" type="submit">
+                        Confirm
+                    </button>
                 </div>
             </div>
         </form>
 
         <div class="mt-6 xl:mt-10">
-            <p class="text-center">
-                For security, please confirm your password to continue.
-            </p>
+            <p class="text-center">For security, please confirm your password to continue.</p>
         </div>
     </div>
 </div>

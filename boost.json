@@ -2,21 +2,24 @@
     "agents": [
         "copilot",
         "cursor",
-        "codex"
+        "codex",
+        "opencode"
     ],
     "guidelines": true,
-    "herd_mcp": true,
     "mcp": true,
     "nightwatch_mcp": false,
     "packages": [
         "filament/filament",
         "spatie/laravel-ray",
-        "spatie/laravel-permission"
+        "spatie/laravel-permission",
+        "livewire/blaze"
     ],
     "sail": false,
     "skills": [
+        "laravel-best-practices",
         "pest-testing",
         "tailwindcss-development",
+        "blaze-optimize",
         "laravel-permission-development",
         "debugging-output-and-previewing-html-using-ray"
     ]
